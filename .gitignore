@@ -10,4 +10,3 @@ __pycache__
 *.egg-info
 *.whl
 .venv
-*.png
