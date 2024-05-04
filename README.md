@@ -1,6 +1,6 @@
 # ipysketch
 
-A sketching utility for python notebooks, no sockets of extra dependencies 🎨
+A sketching utility for python notebooks, no sockets or extra dependencies 🎨
 
 (no extra widget code)
 
