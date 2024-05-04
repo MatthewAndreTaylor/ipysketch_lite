@@ -31,17 +31,12 @@
       var drawing = false;
       var mouse = { x: 0, y: 0 };
 
-      var paintBucket = false;
-
       canvas.addEventListener("mousedown", (e) => {
-        if (paintBucket) return;
         mouse = { x: e.offsetX, y: e.offsetY };
         drawing = true;
       });
 
       canvas.addEventListener("mousemove", (e) => {
-        if (paintBucket) return;
-
         if (drawing) {
           drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
           mouse = { x: e.offsetX, y: e.offsetY };
@@ -49,8 +44,6 @@
       });
 
       canvas.addEventListener("mouseup", (e) => {
-        if (paintBucket) return;
-
         if (drawing) {
           drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
           drawing = false;
@@ -69,6 +62,33 @@
       function clearCanvas() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       }
+
+      var rect = canvas.getBoundingClientRect();
+      var offset = { x: rect.left, y: rect.top };
+      var touches = [];
+
+      canvas.addEventListener("touchstart", (e) => {
+        touches = Array.from(e.touches);
+      });
+
+      canvas.addEventListener("touchmove", (e) => {
+        for (var i = 0; i < e.changedTouches.length; i++) {
+          var touch = e.changedTouches[i];
+          var previousTouch = touches.find(
+            (t) => t.identifier === touch.identifier,
+          );
+          if (previousTouch) {
+            drawLine(
+              ctx,
+              previousTouch.clientX - offset.x,
+              previousTouch.clientY - offset.y,
+              touch.clientX - offset.x,
+              touch.clientY - offset.y,
+            );
+          }
+          touches.splice(i, 1, touch);
+        }
+      });
     </script>
   </body>
 </html>

@@ -1,0 +1,76 @@
+<canvas
+  id="canvas"
+  width="400"
+  height="300"
+  style="border: 2px solid black"
+></canvas>
+<button onclick="clearCanvas()">clear</button>
+<input id="color" type="color" value="#000000" />
+<script>
+  var canvas = document.getElementById("canvas");
+  var colorInput = document.getElementById("color");
+  var ctx = canvas.getContext("2d");
+  ctx.lineWidth = 4;
+  ctx.lineJoin = "round";
+  var drawing = false;
+  var mouse = { x: 0, y: 0 };
+
+  canvas.addEventListener("mousedown", (e) => {
+    mouse = { x: e.offsetX, y: e.offsetY };
+    drawing = true;
+  });
+
+  canvas.addEventListener("mousemove", (e) => {
+    if (drawing) {
+      drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
+      mouse = { x: e.offsetX, y: e.offsetY };
+    }
+  });
+
+  canvas.addEventListener("mouseup", (e) => {
+    if (drawing) {
+      drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
+      drawing = false;
+    }
+  });
+
+  function drawLine(context, x1, y1, x2, y2) {
+    ctx.strokeStyle = colorInput.value;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  function clearCanvas() {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  }
+
+  var rect = canvas.getBoundingClientRect();
+  var offset = { x: rect.left, y: rect.top };
+  var touches = [];
+
+  canvas.addEventListener("touchstart", (e) => {
+    touches = Array.from(e.touches);
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      var touch = e.changedTouches[i];
+      var previousTouch = touches.find(
+        (t) => t.identifier === touch.identifier,
+      );
+      if (previousTouch) {
+        drawLine(
+          ctx,
+          previousTouch.clientX - offset.x,
+          previousTouch.clientY - offset.y,
+          touch.clientX - offset.x,
+          touch.clientY - offset.y,
+        );
+      }
+      touches.splice(i, 1, touch);
+    }
+  });
+</script>
