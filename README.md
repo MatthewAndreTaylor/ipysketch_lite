@@ -1,15 +1,17 @@
-# ipysketch
+# ipysketch_lite
 
-A sketching utility for python notebooks, no sockets or extra dependencies 🎨
+A lite sketching utility for python notebooks, no sockets or extra dependencies 🎨
 
 (no extra widget code)
+
+Make sketches right in your notebook then use the sketch in your python code.
 
 ## Quickstart
 
 Start drawing a quick sketch in your notebook like this
 
 ```py
-from ipysketch import Sketch
+from ipysketch_lite import Sketch
 
 sketch = Sketch()
 ```
