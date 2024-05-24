@@ -4,17 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Matthew Taylor" />
-    <meta name="description" content="Fashion Pixel Labeling and Utilities" />
+    <meta name="description" content="ipysketch_lite demo and documentation" />
     <title>ipysketch</title>
     <script
       type="module"
       src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"
     ></script>
-  </head>
-  <body>
-    <zero-md src="README.md"></zero-md>
-    <br />
     <style>
+      html {
+        scroll-behavior: smooth;
+        font-family: Arial, sans-serif;
+      }
+      
+      header {
+        background-color: #264f6f;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+      }
+      
+      nav {
+        background-color: #333;
+        overflow: hidden;
+        text-align: center;
+      }
+      
+      nav a {
+        display: inline-block;
+        color: #ddd;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+      
+      nav a:hover {
+        background-color: #555;
+        color: white;
+      }
+
+      #app {
+        text-align: center;
+      }
+
       #toggleFill {
         background-color: #f0f0f0;
         border: 1px solid #999999;
@@ -25,15 +58,34 @@
         border: 1px solid #000000;
       }
     </style>
-    <canvas
+  </head>
+  <body>
+    <header>
+      <h1>ipysketch_lite</h1>
+      <span>by: Matthew Taylor</span>
+  </header>
+  <nav>
+      <a href="#app">demo sketch pad 🎨</a>
+      <a href="#docs">docs and guide 🧾</a>
+  </nav>
+  <br />
+    <div id="app">
+      <p>Sketch an image onto the canvas</p>
+      <canvas
       id="canvas"
       width="400"
       height="300"
-      style="border: 2px solid black"
-    ></canvas>
-    <button id="toggleFill" onclick="toggleFill()">bucket</button>
-    <button onclick="clearCanvas()">clear</button>
-    <input id="color" type="color" value="#000000" />
+      style="border: 2px solid black; "
+      ></canvas>
+      <button id="toggleFill" onclick="toggleFill()">bucket</button>
+      <button onclick="clearCanvas()">clear</button>
+      <label for="color">color:</label>
+      <input id="color" type="color" value="#000000" />
+    </div>
+    <br />
+    <zero-md src="README.md" id="docs"></zero-md>
+    
+
     <script>
       var canvas = document.getElementById("canvas");
       var colorInput = document.getElementById("color");
