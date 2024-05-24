@@ -208,22 +208,20 @@
 
       canvas.addEventListener("touchstart", (e) => {
         e.preventDefault();
-
-        if (fillMode) {
-          floodFill(
-            hexToRgb(colorInput.value),
-            e.touches[0].clientX - offset.x,
-            e.touches[0].clientY - offset.y,
-          );
-          return;
-        }
-
         rect = canvas.getBoundingClientRect();
         offset = { x: rect.left, y: rect.top };
         touches = Array.from(e.touches);
+
+        if (fillMode) {
+          var x = Math.floor(touches[0].clientX - offset.x);
+          var y = Math.floor(touches[0].clientY - offset.y);
+          floodFill(hexToRgb(colorInput.value), x, y);
+        }
       });
 
       canvas.addEventListener("touchmove", (e) => {
+        if (fillMode) return;
+
         e.preventDefault();
         rect = canvas.getBoundingClientRect();
         offset = { x: rect.left, y: rect.top };
