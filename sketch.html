@@ -134,4 +134,47 @@
     data[baseIdx + 2] = color.b & 0xff;
     data[baseIdx + 3] = color.a & 0xff;
   }
+
+  var rect = canvas.getBoundingClientRect();
+  var offset = { x: rect.left, y: rect.top };
+  var touches = [];
+
+  canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+
+    if (fillMode) {
+      floodFill(
+        hexToRgb(colorInput.value),
+        e.touches[0].clientX - offset.x,
+        e.touches[0].clientY - offset.y,
+      );
+      return;
+    }
+
+    rect = canvas.getBoundingClientRect();
+    offset = { x: rect.left, y: rect.top };
+    touches = Array.from(e.touches);
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    rect = canvas.getBoundingClientRect();
+    offset = { x: rect.left, y: rect.top };
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      var touch = e.changedTouches[i];
+      var previousTouch = touches.find(
+        (t) => t.identifier === touch.identifier,
+      );
+      if (previousTouch) {
+        drawLine(
+          ctx,
+          previousTouch.clientX - offset.x,
+          previousTouch.clientY - offset.y,
+          touch.clientX - offset.x,
+          touch.clientY - offset.y,
+        );
+      }
+      touches.splice(i, 1, touch);
+    }
+  });
 </script>
