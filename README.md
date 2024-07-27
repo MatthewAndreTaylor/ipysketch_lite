@@ -6,6 +6,12 @@ A lite sketching utility for python notebooks, no sockets or extra dependencies 
 
 Make sketches right in your notebook then use the sketch in your python code.
 
+Try yourself:
+
+<a href="https://jupyterlite.readthedocs.io/en/latest">
+<img alt="jupyterlite badge" src="https://jupyterlite.rtfd.io/en/latest/_static/badge.svg">
+</a>
+
 ## Quickstart
 
 Start drawing a quick sketch in your notebook like this
@@ -26,7 +32,7 @@ import matplotlib.pyplot as plt
 plt.imshow(sketch.get_output_array())
 ```
 
-![example sketch](examples/sketches/example.png)
+![example sketch](sketches/example.png)
 
 Sketches get updated in cells after draw updates
 
