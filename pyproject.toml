@@ -3,13 +3,18 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ipysketch"
+name = "ipysketch-lite"
 version = "0.0.1"
-description="simple sketching tool for jupyter notebooks"
+description="Simple sketching tool for jupyter notebooks"
 authors = [
     {name = "Matthew Taylor", email = "matthew.taylor.andre@gmail.com"},
 ]
+urls = {Homepage = "https://github.com/MatthewAndreTaylor/ipysketch_lite"}
+keywords = ["jupyter", "sketch", "drawing", "canvas"]
 
 [project.readme]
 file = "README.md"
 content-type = "text/markdown"
+
+[project.optional-dependencies]
+utils = [ "numpy", "pillow" ]

@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 plt.imshow(sketch.get_output_array())
 ```
 
-![example sketch](example.png)
+![example sketch](examples/sketches/example.png)
 
 Sketches get updated in cells after draw updates
 

@@ -11,8 +11,8 @@
 </style>
 <canvas
   id="canvas"
-  width="400"
-  height="300"
+  width="{width}"
+  height="{height}"
   style="border: 2px solid black"
 ></canvas>
 <button id="toggleFill" onclick="toggleFill()">bucket</button>
@@ -22,12 +22,24 @@
   var canvas = document.getElementById("canvas");
   var colorInput = document.getElementById("color");
   var toggleFillButton = document.getElementById("toggleFill");
-  var ctx = canvas.getContext("2d");
+  var ctx = canvas.getContext("2d", { willReadFrequently: true });
   ctx.lineWidth = 4;
   ctx.lineJoin = "round";
   var drawing = false;
   var mouse = { x: 0, y: 0 };
   var fillMode = false;
+
+  function canvasUpload() {
+    fetch("http://localhost:5000", {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: canvas.toDataURL(),
+    });
+  }
+
+  canvasUpload();
 
   function toggleFill() {
     fillMode = !fillMode;
@@ -64,6 +76,7 @@
     if (drawing) {
       drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
       drawing = false;
+      canvasUpload();
     }
   });
 
@@ -150,6 +163,10 @@
       var y = Math.floor(touches[0].clientY - offset.y);
       floodFill(hexToRgb(colorInput.value), x, y);
     }
+  });
+
+  canvas.addEventListener("touchend", (e) => {
+    canvasUpload();
   });
 
   canvas.addEventListener("touchmove", (e) => {
