@@ -1,16 +1,16 @@
-var canvas = document.getElementById("canvas");
-var colorInput = document.getElementById("color");
-var toggleFillButton = document.getElementById("toggleFill");
-var ctx = canvas.getContext("2d");
+var canvas = document.getElementById('canvas');
+var colorInput = document.getElementById('color');
+var toggleFillButton = document.getElementById('toggleFill');
+var ctx = canvas.getContext('2d');
 ctx.lineWidth = 4;
-ctx.lineJoin = "round";
+ctx.lineJoin = 'round';
 var drawing = false;
 var mouse = { x: 0, y: 0 };
 var fillMode = false;
 
 function toggleFill() {
   fillMode = !fillMode;
-  toggleFillButton.classList.toggle("active", fillMode);
+  toggleFillButton.classList.toggle('active', fillMode);
 }
 
 function hexToRgb(hex) {
@@ -18,11 +18,11 @@ function hexToRgb(hex) {
     r: parseInt(hex.substring(1, 3), 16),
     g: parseInt(hex.substring(3, 5), 16),
     b: parseInt(hex.substring(5, 7), 16),
-    a: 255,
+    a: 255
   };
 }
 
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener('mousedown', e => {
   if (fillMode) {
     floodFill(hexToRgb(colorInput.value), e.offsetX, e.offsetY);
     return;
@@ -32,14 +32,14 @@ canvas.addEventListener("mousedown", (e) => {
   drawing = true;
 });
 
-canvas.addEventListener("mousemove", (e) => {
+canvas.addEventListener('mousemove', e => {
   if (drawing) {
     drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
     mouse = { x: e.offsetX, y: e.offsetY };
   }
 });
 
-canvas.addEventListener("mouseup", (e) => {
+canvas.addEventListener('mouseup', e => {
   if (drawing) {
     drawLine(ctx, mouse.x, mouse.y, e.offsetX, e.offsetY);
     drawing = false;
@@ -70,7 +70,7 @@ function floodFill(color, x, y) {
     r: data[baseIdx],
     g: data[baseIdx + 1],
     b: data[baseIdx + 2],
-    a: data[baseIdx + 3],
+    a: data[baseIdx + 3]
   };
 
   while (stack.length) {
@@ -118,7 +118,7 @@ var rect = canvas.getBoundingClientRect();
 var offset = { x: rect.left, y: rect.top };
 var touches = [];
 
-canvas.addEventListener("touchstart", (e) => {
+canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   rect = canvas.getBoundingClientRect();
   offset = { x: rect.left, y: rect.top };
@@ -131,7 +131,7 @@ canvas.addEventListener("touchstart", (e) => {
   }
 });
 
-canvas.addEventListener("touchmove", (e) => {
+canvas.addEventListener('touchmove', e => {
   if (fillMode) return;
 
   e.preventDefault();
@@ -139,14 +139,14 @@ canvas.addEventListener("touchmove", (e) => {
   offset = { x: rect.left, y: rect.top };
   for (var i = 0; i < e.changedTouches.length; i++) {
     var touch = e.changedTouches[i];
-    var previousTouch = touches.find((t) => t.identifier === touch.identifier);
+    var previousTouch = touches.find(t => t.identifier === touch.identifier);
     if (previousTouch) {
       drawLine(
         ctx,
         previousTouch.clientX - offset.x,
         previousTouch.clientY - offset.y,
         touch.clientX - offset.x,
-        touch.clientY - offset.y,
+        touch.clientY - offset.y
       );
     }
     touches.splice(i, 1, touch);
