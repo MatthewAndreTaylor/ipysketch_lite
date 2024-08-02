@@ -13,4 +13,4 @@ __pycache__
 .venv
 data
 gen
-.db
+*.db

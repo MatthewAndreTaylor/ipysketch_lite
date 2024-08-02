@@ -23,11 +23,12 @@ jobs:
           python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab~=3.5.3
       - name: Build the JupyterLite site
         run: |
-          cp README.md examples
-          jupyter lite build --contents examples --output-dir site_dist
-          mv ./site_dist/index.html ./site_dist/examples.html
+          mkdir -p site_dist
           cp index.html site_dist
           cp -r js site_dist/js
+
+          cp README.md examples
+          jupyter lite build --contents examples --output-dir site_dist/jupyterlite
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
