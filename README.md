@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 plt.imshow(sketch.get_output_array())
 ```
 
-![example sketch](sketches/example.png)
+![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true)
 
 Sketches get updated in cells after draw updates
 
