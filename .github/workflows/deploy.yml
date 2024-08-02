@@ -1,0 +1,51 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the dependencies
+        run: |
+          python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab~=3.5.3
+      - name: Build the JupyterLite site
+        run: |
+          cp README.md examples
+          jupyter lite build --contents examples --output-dir site_dist
+          mv ./site_dist/index.html ./site_dist/examples.html
+          cp index.html site_dist
+          cp -r js site_dist/js
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site_dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
