@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ipysketch-lite"
-version = "0.0.2"
+version = "0.0.3"
 description="Simple sketching tool for jupyter notebooks"
 authors = [
     {name = "Matthew Taylor", email = "matthew.taylor.andre@gmail.com"},
@@ -17,4 +17,5 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.optional-dependencies]
-utils = [ "numpy", "pillow" ]
+extras = [ "numpy", "pillow" ]
+test = [ "numpy", "pillow", "torch", "torchvision", "matplotlib" ]
