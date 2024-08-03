@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ipysketch-lite"
 version = "0.0.3"
-description="Simple sketching tool for jupyter notebooks"
+description="Simple sketching tool for Jupyter notebooks"
 authors = [
     {name = "Matthew Taylor", email = "matthew.taylor.andre@gmail.com"},
 ]
