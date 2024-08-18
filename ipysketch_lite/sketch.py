@@ -63,7 +63,7 @@ class Sketch:
     async def poll_message_contents(self):
         while True:
             try:
-                message_path = path.filefind(".message.txt")
+                message_path = path.filefind("message.txt")
                 print(message_path)
                 if message_path:
                     with open(message_path, "r") as f:

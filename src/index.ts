@@ -23,7 +23,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     window.sendMessage = async (message: string) => {
       console.log('sending message');
       // send the message to the python
-      await app.serviceManager.contents.save('.message.txt', {
+      await app.serviceManager.contents.save('message.txt', {
         type: 'file',
         content: message
       });
