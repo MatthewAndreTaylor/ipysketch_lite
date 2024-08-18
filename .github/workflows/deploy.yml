@@ -18,10 +18,22 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          
       - name: Install the dependencies
         run: |
-          python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab~=3.5.3
-      - name: Build the JupyterLite site
+          python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab~=4
+      
+      - name: Install the extension
+        run: |
+          pip install -ve .
+          jupyter labextension list
+
+      - name: Move files to site_dist
         run: |
           mkdir -p site_dist
           cp index.html site_dist
@@ -29,6 +41,9 @@ jobs:
           cp README.md site_dist
           cp -r sketches site_dist/sketches
           cp README.md examples
+
+      - name: Build the JupyterLite site
+        run: |
           jupyter lite build --contents examples --output-dir site_dist/jupyterlite --piplite-wheels ipysketch-lite[test]
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
