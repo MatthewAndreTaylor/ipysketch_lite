@@ -30,13 +30,7 @@
   var fillMode = false;
 
   function canvasUpload() {
-    fetch("http://localhost:5000", {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain",
-      },
-      body: canvas.toDataURL(),
-    });
+    window.sendMessage(canvas.toDataURL());
   }
 
   canvasUpload();

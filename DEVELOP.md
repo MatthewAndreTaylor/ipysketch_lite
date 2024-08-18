@@ -14,6 +14,10 @@ pip install -ve .
 # Build package
 jlpm run build
 
+
+# Create sample lab test env
+jupyter lab --notebook-dir=.
+
 # Create sample lite test env
 jupyter lite build
 

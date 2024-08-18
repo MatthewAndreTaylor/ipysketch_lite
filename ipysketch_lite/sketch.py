@@ -1,4 +1,5 @@
 import asyncio
+import threading
 import base64
 import io
 
@@ -36,21 +37,22 @@ class Sketch:
 
         display(HTML(sketch_template))
 
-        # run this in a separate thread        
+        # run this in a separate thread
+        thread = threading.Thread(target=self.run_async)
+        thread.start()
 
-        # Poll the sketch message contents
-        asyncio.ensure_future(self.poll_message_contents())
-        asyncio.get_event_loop().run_forever()
+    def run_async(self):
+        asyncio.run(self.poll_message_contents())
 
     async def poll_message_contents(self):
         while True:
             try:
                 message_path = path.filefind(".message.txt")
+                print(message_path)
                 if message_path:
                     with open(message_path, "r") as f:
                         self.data = f.read()
-                        print("here")
-            except:
+            except Exception as e:
                 pass
             await asyncio.sleep(1)  # sleep for 1 second before next poll
 

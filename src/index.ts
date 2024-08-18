@@ -1,7 +1,7 @@
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
-} from "@jupyterlab/application";
+} from '@jupyterlab/application';
 
 declare global {
   interface Window {
@@ -13,19 +13,22 @@ declare global {
  * The plugin for sending messages to the python
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: "ipysketch:plugin",
+  id: 'ipysketch:plugin',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    console.log("ipysketch plugin activated");
+    console.log('ipysketch plugin activated');
+
+    console.log(app.serviceManager.contents);
 
     window.sendMessage = async (message: string) => {
+      console.log('sending message');
       // send the message to the python
-      await app.serviceManager.contents.save(".message.txt", {
-        type: "file",
-        content: message,
+      await app.serviceManager.contents.save('.message.txt', {
+        type: 'file',
+        content: message
       });
     };
-  },
+  }
 };
 
 export default plugin;
