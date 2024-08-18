@@ -1,13 +1,13 @@
 {
     "name": "ipysketch_lite",
-    "version": "0.1.0",
-    "description": "A JupyterLab extension.",
+    "version": "0.0.8",
+    "description": "A JupyterLab extension for making sketches.",
     "keywords": [
         "jupyter",
         "jupyterlab",
         "jupyterlab-extension"
     ],
-    "homepage": "",
+    "homepage": "https://github.com/MatthewAndreTaylor/ipysketch_lite",
     "bugs": {
         "url": "/issues"
     },
