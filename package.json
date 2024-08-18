@@ -1,6 +1,6 @@
 {
     "name": "ipysketch_lite",
-    "version": "0.0.8",
+    "version": "0.1.1",
     "description": "A JupyterLab extension for making sketches.",
     "keywords": [
         "jupyter",
