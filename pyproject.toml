@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ipysketch-lite"
-version = "0.0.5"
 license = { file = "LICENSE" }
 description="Simple sketching tool for Jupyter notebooks"
 authors = [
@@ -28,6 +27,7 @@ classifiers = [
 ]
 urls = {Homepage = "https://github.com/MatthewAndreTaylor/ipysketch_lite"}
 keywords = ["jupyter", "sketch", "drawing", "canvas"]
+dynamic = ["version"]
 
 [project.readme]
 file = "README.md"
