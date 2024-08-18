@@ -23,6 +23,7 @@ class Sketch:
     """
 
     data: str
+    thread: threading.Thread
 
     def __init__(self, width: int = 400, height: int = 300):
         self.data = ""
@@ -37,9 +38,24 @@ class Sketch:
 
         display(HTML(sketch_template))
 
-        # run this in a separate thread
-        thread = threading.Thread(target=self.run_async)
-        thread.start()
+
+    def create(self):
+        try:
+            # run this in a separate thread
+            self.thread = threading.Thread(target=self.run_async)
+            self.thread.start()
+        except Exception as e:
+            try:
+                asyncio.ensure_future(self.poll_message_contents())
+                asyncio.get_event_loop().run_forever()
+            except Exception as e:
+                print(e)
+
+    def finish(self):
+        self.thread.join()
+
+    def __del__(self):
+        self.finish()
 
     def run_async(self):
         asyncio.run(self.poll_message_contents())
