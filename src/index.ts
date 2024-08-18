@@ -18,8 +18,6 @@ const plugin: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     console.log('ipysketch plugin activated');
 
-    console.log(app.serviceManager.contents);
-
     window.sendMessage = async (message: string) => {
       console.log('sending message');
       // send the message to the python

@@ -8,14 +8,6 @@ import io
 from IPython.display import HTML, display
 from IPython.utils import path
 
-try:
-    import numpy as np
-    from PIL import Image
-
-    PIL_INSTALLED = True
-except ImportError:
-    PIL_INSTALLED = False
-
 
 class Sketch:
     """
@@ -37,13 +29,12 @@ class Sketch:
         sketch_template = template.template
         for key, value in metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
-            
-        
+
         # Create a sample 1x1 px png image
-        sample_data ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC'
-        with open("message.txt", 'w') as buffer:
+        sample_data = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC"
+        with open("message.txt", "w") as buffer:
             buffer.write(sample_data)
-        
+
         # Touch the file to create it
         self.read_message_data()
 
@@ -69,7 +60,7 @@ class Sketch:
             self.thread.join()
         except Exception as e:
             print(e)
-            
+
     async def poll_message_contents(self):
         while True:
             try:
@@ -80,7 +71,7 @@ class Sketch:
 
     def run_async(self):
         asyncio.run(self.poll_message_contents())
-        
+
     def read_message_data(self):
         try:
             message_path = path.filefind("message.txt")
@@ -89,7 +80,6 @@ class Sketch:
                     self.data = f.read()
         except Exception as e:
             raise e
-        
 
     def get_output(self) -> str:
         if self.is_polling:
@@ -101,10 +91,21 @@ class Sketch:
             print(e)
         return self.data
 
+    def get_output_image(self):
+        try:
+            from PIL import Image
+        except ImportError:
+            raise ImportError("PIL (Pillow) is required to use this method.")
+
+        image_data = self.get_output().split(",")[1]
+        bytesio = io.BytesIO(base64.b64decode(image_data))
+        return Image.open(bytesio)
+
     def get_output_array(self):
-        if PIL_INSTALLED:
-            image_data = self.data.split(",")[1]
-            image = Image.open(io.BytesIO(base64.b64decode(image_data)))
-            return np.array(image)
-        else:
-            raise ImportError("PIL (Pillow) and NumPy are required to use this method.")
+        try:
+            import numpy as np
+        except ImportError:
+            raise ImportError("Numpy is required to use this method.")
+
+        image = self.get_output_image()
+        return np.array(image)
