@@ -17,17 +17,17 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          
+          node-version: '16'
+
       - name: Install the dependencies
         run: |
           python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab==4.2.4
-      
+
       - name: Install the extension
         run: |
           pip install -ve .

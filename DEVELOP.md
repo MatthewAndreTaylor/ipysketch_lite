@@ -22,4 +22,3 @@ jupyter lab --notebook-dir=.
 jupyter lite build
 
 ```
-

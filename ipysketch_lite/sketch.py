@@ -23,9 +23,11 @@ class Sketch:
     """
 
     data: str
+    is_polling: bool
     thread: threading.Thread
 
     def __init__(self, width: int = 400, height: int = 300):
+        self.is_polling = False
         self.data = ""
         metadata = {
             "{width}": width,
@@ -38,13 +40,8 @@ class Sketch:
 
         display(HTML(sketch_template))
 
-        try:
-            self.create()
-        except Exception as e:
-            pass
-
-
-    def create(self):
+    def start_polling(self):
+        self.is_polling
         try:
             # run this in a separate thread
             self.thread = threading.Thread(target=self.run_async)
@@ -54,10 +51,12 @@ class Sketch:
                 asyncio.ensure_future(self.poll_message_contents())
                 asyncio.get_event_loop().run_forever()
             except Exception as e:
+                self.is_polling = False
                 print(e)
 
     def finish(self):
         try:
+            self.is_polling = False
             self.thread.join()
         except Exception as e:
             print(e)
@@ -69,18 +68,28 @@ class Sketch:
         while True:
             try:
                 message_path = path.filefind("message.txt")
-                print(message_path)
                 if message_path:
                     with open(message_path, "r") as f:
                         self.data = f.read()
             except Exception as e:
+                self.is_polling = False
                 pass
             await asyncio.sleep(1)  # sleep for 1 second before next poll
 
     def get_output(self) -> str:
-        return self.data
+        if self.is_polling:
+            return self.data
 
-    def get_output_array(self):        
+        try:
+            message_path = path.filefind("message.txt")
+            if message_path:
+                with open(message_path, "r") as f:
+                    self.data = f.read()
+        except Exception as e:
+            print(e)
+            pass
+
+    def get_output_array(self):
         if PIL_INSTALLED:
             image_data = self.data.split(",")[1]
             image = Image.open(io.BytesIO(base64.b64decode(image_data)))

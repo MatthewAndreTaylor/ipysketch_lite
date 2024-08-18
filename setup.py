@@ -1,3 +1,1 @@
-__import__("setuptools").setup(
-    version='0.2.1'
-)
+__import__("setuptools").setup(version="0.2.2")
