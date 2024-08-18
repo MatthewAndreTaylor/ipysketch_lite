@@ -25,6 +25,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       // send the message to the python
       await app.serviceManager.contents.save('message.txt', {
         type: 'file',
+        format: 'text',
         content: message
       });
     };
