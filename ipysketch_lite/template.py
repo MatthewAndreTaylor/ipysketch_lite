@@ -1,4 +1,4 @@
-<style>
+template = """<style>
   #toggleFill {
     background-color: #f0f0f0;
     border: 1px solid #999999;
@@ -187,3 +187,4 @@
     }
   });
 </script>
+"""
