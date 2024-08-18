@@ -38,6 +38,11 @@ class Sketch:
 
         display(HTML(sketch_template))
 
+        try:
+            self.create()
+        except Exception as e:
+            pass
+
 
     def create(self):
         try:
@@ -52,10 +57,10 @@ class Sketch:
                 print(e)
 
     def finish(self):
-        self.thread.join()
-
-    def __del__(self):
-        self.finish()
+        try:
+            self.thread.join()
+        except Exception as e:
+            print(e)
 
     def run_async(self):
         asyncio.run(self.poll_message_contents())
