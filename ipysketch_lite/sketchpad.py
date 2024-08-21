@@ -3,6 +3,7 @@ from .sketch import Sketch
 import asyncio
 import threading
 
+
 class SketchPad(Sketch):
     """
     SketchPad class to create a sketchpad instance
@@ -16,7 +17,6 @@ class SketchPad(Sketch):
         super().__init__(**kwargs)
         self._is_polling = False
         self._thread = None
-
 
     def start_polling(self):
         """
@@ -70,4 +70,3 @@ class SketchPad(Sketch):
         except Exception as e:
             print(e)
         return self._data
-

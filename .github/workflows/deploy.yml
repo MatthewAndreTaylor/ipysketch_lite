@@ -37,10 +37,14 @@ jobs:
         run: |
           mkdir -p site_dist
           cp index.html site_dist
-          cp -r js site_dist/js
           cp README.md site_dist
           cp -r sketches site_dist/sketches
           cp README.md examples
+
+      - name: Build the docs
+        run: |
+          ./docs/makedocs.sh
+          cp -r docs/build/html site_dist/docs
 
       - name: Build the JupyterLite site
         run: |

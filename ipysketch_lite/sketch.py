@@ -50,7 +50,7 @@ class Sketch:
         """
         if not path.endswith(".png"):
             raise ValueError("Only PNG files are supported.")
-        
+
         self.image.save(path)
 
     @property

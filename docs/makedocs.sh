@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pip install sphinx-rtd-theme m2r2
+pip install IPython sphinx-rtd-theme m2r2
 
-sphinx-build -M html ./docs/ ./build --fail-on-warning
+sphinx-build -M html ./docs ./docs/build --fail-on-warning
