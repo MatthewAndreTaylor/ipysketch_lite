@@ -5,7 +5,7 @@ import threading
 import base64
 import io
 
-from IPython.display import HTML, Javascript, display
+from IPython.display import HTML, display
 from IPython.utils import path
 
 
@@ -96,7 +96,7 @@ class Sketch:
     @property
     def data(self) -> str:
         """
-        Get the sketch image data
+        Get the sketch image data as a base64 encoded string
         """
         if self._is_polling:
             return self._data
