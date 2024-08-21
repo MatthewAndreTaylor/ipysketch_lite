@@ -13,6 +13,7 @@ It is a simple sketching tool that uses the canvas element to draw on.
 .. toctree::
    :maxdepth: 3
    
+   readme
    api
 
 

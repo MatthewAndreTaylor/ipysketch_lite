@@ -1,6 +1,5 @@
 import os
 import sys
-import subprocess
 
 sys.path.insert(0, os.path.abspath('../ipysketch_lite'))
 
@@ -10,7 +9,10 @@ author = 'Matthew Taylor'
 
 extensions = [
     'sphinx.ext.autodoc',
+    'm2r2'
 ]
+
+source_suffix = [".rst", ".md"]
 
 templates_path = ['_templates']
 

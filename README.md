@@ -12,6 +12,9 @@ Try yourself:
 <img alt="jupyterlite badge" src="https://jupyterlite.rtfd.io/en/latest/_static/badge.svg">
 </a>
 
+[![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite/)
+
+
 ## Quickstart
 
 Start drawing a quick sketch in your notebook like this
@@ -25,11 +28,15 @@ sketch = Sketch()
 Then add a new cell to retrieve the sketch in python
 
 ```py
-print(sketch.get_output())
+sketch.data # Sketch image data as a base64 encoded string
+```
 
+```py
 import matplotlib.pyplot as plt
 
-plt.imshow(sketch.get_output_array())
+# Plot the sketch image or do image manipulation
+plt.imshow(sketch.image)
+plt.show()
 ```
 
 ![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true)
