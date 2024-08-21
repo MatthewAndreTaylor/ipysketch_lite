@@ -90,8 +90,8 @@ class Sketch:
         """
         if not path.endswith(".png"):
             raise ValueError("Only PNG files are supported.")
-
-        display(Javascript(f'window.saveLastMessage("{path}")'))
+        
+        self.image.save(path)
 
     @property
     def data(self) -> str:
@@ -102,7 +102,7 @@ class Sketch:
             return self._data
 
         try:
-            self.read_message_data()
+            self._read_message_data()
         except Exception as e:
             print(e)
         return self._data

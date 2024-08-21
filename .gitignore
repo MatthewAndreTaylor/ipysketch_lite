@@ -24,6 +24,7 @@ node_modules/
 *.log
 .ipynb_checkpoints
 ipysketch_lite/labextension
+_output/
 
 # Distribution / packaging
 .Python
