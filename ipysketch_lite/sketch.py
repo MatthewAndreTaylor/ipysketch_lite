@@ -1,7 +1,5 @@
 from ipysketch_lite import template
 
-import asyncio
-import threading
 import base64
 import io
 
@@ -15,13 +13,8 @@ class Sketch:
     """
 
     _data: str
-    _is_polling: bool
-    _thread: threading.Thread | None
 
     def __init__(self, width: int = 400, height: int = 300):
-        self._is_polling = False
-        self._thread = None
-
         self._data = ""
         metadata = {
             "{width}": width,
@@ -42,39 +35,6 @@ class Sketch:
 
         display(HTML(sketch_template))
 
-    def start_polling(self) -> None:
-        self._is_polling = True
-        try:
-            # run this in a separate thread
-            self._thread = threading.Thread(target=self._run_async)
-            self._thread.start()
-        except Exception as e:
-            try:
-                asyncio.ensure_future(self._poll_message_contents())
-                asyncio.get_event_loop().run_forever()
-            except Exception as e:
-                self._is_polling = False
-                print(e)
-
-    def stop_polling(self) -> None:
-        try:
-            self._is_polling = False
-            if self._thread:
-                self._thread.join()
-        except Exception as e:
-            print(e)
-
-    async def _poll_message_contents(self) -> None:
-        while True:
-            try:
-                self._read_message_data()
-            except:
-                self._is_polling = False
-            await asyncio.sleep(1)  # sleep for 1 second before next poll
-
-    def _run_async(self) -> None:
-        asyncio.run(self._poll_message_contents())
-
     def _read_message_data(self) -> None:
         try:
             message_path = path.filefind("message.txt")
@@ -84,7 +44,7 @@ class Sketch:
         except Exception as e:
             raise e
 
-    def save(self, path: str) -> None:
+    def save(self, path: str):
         """
         Save the sketch image data to a file
         """
@@ -98,9 +58,6 @@ class Sketch:
         """
         Get the sketch image data as a base64 encoded string
         """
-        if self._is_polling:
-            return self._data
-
         try:
             self._read_message_data()
         except Exception as e:
