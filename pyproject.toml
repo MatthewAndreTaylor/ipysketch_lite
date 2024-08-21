@@ -78,5 +78,5 @@ ignore = ["W002"]
 
 
 [project.optional-dependencies]
-extras = [ "numpy", "pillow" ]
-test = [ "numpy", "pillow", "torch", "torchvision", "matplotlib" ]
+extra = [ "numpy", "pillow" ]
+test = [ "numpy", "pillow", "matplotlib" ]
