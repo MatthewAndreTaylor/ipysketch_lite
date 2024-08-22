@@ -43,7 +43,8 @@ jobs:
 
       - name: Build the docs
         run: |
-          ./docs/makedocs.sh
+          pip install IPython sphinx sphinx-rtd-theme m2r2
+          sphinx-build -M html ./docs ./docs/build --fail-on-warning
           cp -r docs/build/html site_dist/docs
 
       - name: Build the JupyterLite site
