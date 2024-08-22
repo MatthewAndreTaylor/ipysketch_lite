@@ -38,6 +38,7 @@ jobs:
           mkdir -p site_dist
           cp index.html site_dist
           cp README.md site_dist
+          cp -r js site_dist/js
           cp -r sketches site_dist/sketches
           cp README.md examples
 
