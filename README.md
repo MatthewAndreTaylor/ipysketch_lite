@@ -15,7 +15,6 @@ Try yourself:
 [![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite)
 [![Docs](https://img.shields.io/badge/Docs-informational?logo=readthedocs&logoColor=white)](https://matthewandretaylor.github.io/ipysketch_lite/docs)
 
-
 ## Quickstart
 
 To get started pip install the extension from [PyPI](https://pypi.org/project/ipysketch-lite)
