@@ -52,6 +52,7 @@ template = """<style>
   canvas.addEventListener("mousedown", (e) => {
     if (fillMode) {
       floodFill(hexToRgb(colorInput.value), e.offsetX, e.offsetY);
+      canvasUpload();
       return;
     }
 
