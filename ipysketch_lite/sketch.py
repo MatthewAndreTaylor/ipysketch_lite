@@ -10,21 +10,35 @@ from IPython.utils import path
 class Sketch:
     """
     Sketch class to create a sketch instance
+    This includes a template that allows for basic drawing utilities
     """
 
     _data: str
 
     def __init__(self, width: int = 400, height: int = 300):
         self._data = ""
+        self._send_first()
+        self.width = width
+        self.height = height
+
+        sketch_template = self.get_template()
+
+        display(HTML(sketch_template))
+
+
+    def get_template(self):
         metadata = {
-            "{width}": width,
-            "{height}": height,
+            "{width}": self.width,
+            "{height}": self.height,
         }
 
-        sketch_template = template.template
+        sketch_template=template.template
         for key, value in metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
 
+        return sketch_template
+
+    def _send_first(self):
         # Create a sample 1x1 px png image
         sample_data = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC"
         with open("message.txt", "w") as buffer:
@@ -32,8 +46,6 @@ class Sketch:
 
         # Touch the file to create it
         self._read_message_data()
-
-        display(HTML(sketch_template))
 
     def _read_message_data(self) -> None:
         try:
