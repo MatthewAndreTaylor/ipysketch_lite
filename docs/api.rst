@@ -6,3 +6,6 @@ Sketch API Reference
 
 .. autoclass:: ipysketch_lite.SketchPad
    :members:
+
+.. autoclass:: ipysketch_lite.PollingSketch
+   :members:
