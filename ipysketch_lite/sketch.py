@@ -25,14 +25,13 @@ class Sketch:
 
         display(HTML(sketch_template))
 
-
     def get_template(self):
         metadata = {
             "{width}": self.width,
             "{height}": self.height,
         }
 
-        sketch_template=template.template
+        sketch_template = template.template
         for key, value in metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
 

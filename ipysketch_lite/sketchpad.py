@@ -1,5 +1,6 @@
 from ipysketch_lite import Sketch, template
 
+
 class SketchPad(Sketch):
     """
     SketchPad class to create a sketchpad instance
@@ -8,6 +9,6 @@ class SketchPad(Sketch):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    
+
     def get_template(self):
         return template.pad_template
