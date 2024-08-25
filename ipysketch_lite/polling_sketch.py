@@ -2,6 +2,7 @@ from ipysketch_lite import Sketch
 
 import asyncio
 import threading
+from typing import Union
 
 
 class PollingSketch(Sketch):
@@ -10,7 +11,7 @@ class PollingSketch(Sketch):
     """
 
     _is_polling: bool
-    _thread: threading.Thread | None
+    _thread: Union[threading.Thread, None]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

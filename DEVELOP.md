@@ -25,7 +25,6 @@ jupyter lite build
 
 ```
 
-
 ## Development deployment
 
 There are two packages which are deployed.
@@ -33,4 +32,3 @@ There are two packages which are deployed.
 a pure python package for `jupyterlite` environments which uses setuptools build.
 
 an extension package for standard `jupyter` environments which uses hatch build.
-
