@@ -12,6 +12,8 @@ Try yourself:
 <img alt="jupyterlite badge" src="https://jupyterlite.rtfd.io/en/latest/_static/badge.svg">
 </a>
 
+![demo](https://github.com/user-attachments/assets/32504e77-a9d1-43c2-96ff-dc0acff48393)
+
 [![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite)
 [![Docs](https://img.shields.io/badge/Docs-informational?logo=readthedocs&logoColor=white)](https://matthewandretaylor.github.io/ipysketch_lite/docs)
 
