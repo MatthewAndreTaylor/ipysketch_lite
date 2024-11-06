@@ -27,7 +27,7 @@ This can be done using `pip` for jupyter environments
 pip install ipysketch-lite
 ```
 
-Or using `piplite` if you are using [jupyter lite](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab/index.html)
+Or using `piplite` if you are using [jupyter lite](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
 
 ```py
 import piplite
