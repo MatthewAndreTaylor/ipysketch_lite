@@ -8,7 +8,7 @@ Make sketches right in your notebook then use the sketch in your python code.
 
 Try yourself:
 
-<a href="https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab/index.html">
+<a href="https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb">
 <img alt="jupyterlite badge" src="https://jupyterlite.rtfd.io/en/latest/_static/badge.svg">
 </a>
 
