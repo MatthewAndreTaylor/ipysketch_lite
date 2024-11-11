@@ -30,7 +30,7 @@ template = """<style>
   var fillMode = false;
 
   function canvasUpload() {
-    window.sendMessage(canvas.toDataURL());
+    {canvas_upload}
   }
 
   canvasUpload();
@@ -198,13 +198,18 @@ pad_template = """<script src="https://cdn.jsdelivr.net/npm/js-draw@1.20.3/dist/
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
     editor.addToolbar();
+
+    function canvasUpload() {
+      {canvas_upload}
+    }
+
     function madeEdit() {
         var viewport = editor.image.getImportExportViewport();
         canvas.width = viewport.getScreenRectSize().x;
         canvas.height = viewport.getScreenRectSize().y;
         var renderer = new jsdraw.CanvasRenderer(ctx, viewport);
         editor.image.render(renderer, viewport);
-        window.sendMessage(canvas.toDataURL());
+        canvasUpload();
     }
 
     editorElement.addEventListener('mouseup', madeEdit);

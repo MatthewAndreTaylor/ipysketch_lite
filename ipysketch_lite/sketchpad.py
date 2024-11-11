@@ -11,4 +11,8 @@ class SketchPad(Sketch):
         super().__init__(**kwargs)
 
     def get_template(self):
-        return template.pad_template
+        sketch_template = template.pad_template
+        for key, value in self.metadata.items():
+            sketch_template = sketch_template.replace(key, str(value))
+
+        return sketch_template

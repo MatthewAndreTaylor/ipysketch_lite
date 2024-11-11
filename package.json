@@ -1,6 +1,6 @@
 {
     "name": "ipysketch_lite",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "A JupyterLab extension for making sketches.",
     "keywords": [
         "jupyter",
@@ -11,7 +11,6 @@
     "bugs": {
         "url": "/issues"
     },
-    "license": "BSD-3-Clause",
     "author": "Matthew Taylor",
     "files": [
         "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
