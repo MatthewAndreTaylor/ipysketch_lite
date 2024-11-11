@@ -1,10 +1,35 @@
 from ipysketch_lite import template
 
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+import logging
 import base64
 import io
 
 from IPython.display import HTML, display
 from IPython.utils import path
+
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        pass
+
+    def do_POST(self):
+        content_length = int(self.headers["Content-Length"])
+        post_data = self.rfile.read(content_length)
+        message = post_data.decode("utf-8")
+
+        with open("message.txt", "w") as buffer:
+            buffer.write(message)
+
+        self.send_response(200)
+
+
+def run(handler_class=SimpleHTTPRequestHandler, port=5000):
+    server_address = ("", port)
+    httpd = HTTPServer(server_address, handler_class)
+    server_thread = threading.Thread(target=httpd.serve_forever)
+    server_thread.start()
 
 
 class Sketch:
@@ -14,25 +39,35 @@ class Sketch:
     """
 
     _data: str
+    _logger: logging.Logger
 
     def __init__(self, width: int = 400, height: int = 300):
         self._data = ""
+        self._logger = logging.getLogger(__name__)
+        self._logger.setLevel(logging.ERROR)
+
         self._send_first()
-        self.width = width
-        self.height = height
+        self.metadata = {
+            "{width}": width,
+            "{height}": height,
+            "{canvas_upload}": "window.sendMessage(canvas.toDataURL());",
+        }
+
+        try:
+            run()
+            self.metadata[
+                "{canvas_upload}"
+            ] = """fetch('http://localhost:5000', {method: 'POST', headers: {'Content-Type': 'text/plain'}, body: canvas.toDataURL()});"""
+        except Exception as e:
+            self._logger.warning(f"Could not start local server: {e} Using default method.")
 
         sketch_template = self.get_template()
 
         display(HTML(sketch_template))
 
     def get_template(self):
-        metadata = {
-            "{width}": self.width,
-            "{height}": self.height,
-        }
-
         sketch_template = template.template
-        for key, value in metadata.items():
+        for key, value in self.metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
 
         return sketch_template
@@ -72,7 +107,7 @@ class Sketch:
         try:
             self._read_message_data()
         except Exception as e:
-            print(e)
+            self._logger.error(f"Could not read message data: {e}")
         return self._data
 
     @property
