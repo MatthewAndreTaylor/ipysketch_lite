@@ -1,13 +1,14 @@
-from ipysketch_lite import template
-
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import threading
-import logging
 import base64
 import io
+import logging
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from IPython.display import HTML, display
 from IPython.utils import path
+from PIL import Image
+
+from ipysketch_lite import template
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -19,7 +20,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         message = post_data.decode("utf-8")
 
-        with open("message.txt", "w") as buffer:
+        with open(f"message.txt", "w") as buffer:
             buffer.write(message)
 
         self.send_response(200)
@@ -40,6 +41,7 @@ class Sketch:
 
     _data: str
     _logger: logging.Logger
+    metadata: dict
 
     def __init__(self, width: int = 400, height: int = 300):
         self._data = ""
@@ -50,22 +52,30 @@ class Sketch:
         self.metadata = {
             "{width}": width,
             "{height}": height,
-            "{canvas_upload}": "window.sendMessage(canvas.toDataURL());",
+            "{canvas_upload}": f"window.sendMessage(canvas.toDataURL());",
         }
 
         try:
             run()
-            self.metadata[
-                "{canvas_upload}"
-            ] = """fetch('http://localhost:5000', {method: 'POST', headers: {'Content-Type': 'text/plain'}, body: canvas.toDataURL()});"""
+            self.metadata["{canvas_upload}"] = (
+                f"""fetch('http://localhost:5000', {{
+                    method: 'POST',
+                    headers: {{'Content-Type': 'text/plain'}},
+                    body: canvas.toDataURL()
+                }});"""
+            )
         except Exception as e:
-            self._logger.warning(f"Could not start local server: {e} Using default method.")
+            self._logger.warning(
+                f"Could not start local server: {e} Using default method."
+            )
 
         sketch_template = self.get_template()
-
         display(HTML(sketch_template))
 
-    def get_template(self):
+    def get_template(self) -> str:
+        """
+        Get the sketch html template with metadata replaced
+        """
         sketch_template = template.template
         for key, value in self.metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
@@ -81,7 +91,10 @@ class Sketch:
         # Touch the file to create it
         self._read_message_data()
 
-    def _read_message_data(self) -> None:
+    def _read_message_data(self) -> bool:
+        """
+        Read the message data from the file return whether it was successful
+        """
         try:
             message_path = path.filefind("message.txt")
             if message_path:
@@ -111,14 +124,7 @@ class Sketch:
         return self._data
 
     @property
-    def array(self):
-        """
-        Get the sketch image data as a numpy array
-        """
-        return self.get_output_array()
-
-    @property
-    def image(self):
+    def image(self) -> Image:
         """
         Get the sketch image data as a PIL image
         """
@@ -127,21 +133,7 @@ class Sketch:
     def get_output(self) -> str:
         return self.data
 
-    def get_output_image(self):
-        try:
-            from PIL import Image
-        except ImportError:
-            raise ImportError("PIL (Pillow) is required to use this method.")
-
+    def get_output_image(self) -> Image:
         image_data = self.get_output().split(",")[1]
         bytesio = io.BytesIO(base64.b64decode(image_data))
         return Image.open(bytesio)
-
-    def get_output_array(self):
-        try:
-            import numpy as np
-        except ImportError:
-            raise ImportError("Numpy is required to use this method.")
-
-        image = self.get_output_image()
-        return np.array(image)
