@@ -1,5 +1,5 @@
+from .annotator_sketch import AnnotationSketch
 from .sketch import Sketch
-from .sketchpad import SketchPad
 
 
 def _jupyter_labextension_paths():

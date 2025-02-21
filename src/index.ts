@@ -26,6 +26,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
         format: 'text',
         content: message
       });
+
+      const session = app.serviceManager.sessions.running().next();
+      console.log(session);
     };
   }
 };
