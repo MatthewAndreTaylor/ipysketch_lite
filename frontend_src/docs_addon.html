@@ -1,0 +1,12 @@
+<script>
+  function resizeCanvas() {
+    const canvas = document.getElementById('canvas');
+    if (window.innerWidth >= 500) {
+      canvas.width = 400;
+    } else {
+      canvas.width = 300;
+    }
+  }
+  window.addEventListener('load', resizeCanvas);
+  window.addEventListener('resize', resizeCanvas);
+</script>

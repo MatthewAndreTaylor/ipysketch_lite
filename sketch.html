@@ -1,5 +1,6 @@
 <style>#sketch {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -9,6 +10,7 @@ canvas {
 }
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -343,4 +345,16 @@ canvas.addEventListener('touchmove', e => {
 });
 
 document.getElementById('root').appendChild(sketch);
+</script>
+<script>
+  function resizeCanvas() {
+    const canvas = document.getElementById('canvas');
+    if (window.innerWidth >= 500) {
+      canvas.width = 400;
+    } else {
+      canvas.width = 300;
+    }
+  }
+  window.addEventListener('load', resizeCanvas);
+  window.addEventListener('resize', resizeCanvas);
 </script>
