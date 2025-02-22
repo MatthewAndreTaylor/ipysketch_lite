@@ -1,5 +1,6 @@
 template_html = """<style>#sketch {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -9,6 +10,7 @@ canvas {
 }
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -343,7 +345,7 @@ canvas.addEventListener('touchmove', e => {
 });
 
 document.getElementById('root').appendChild(sketch);
-</script>"""
+</script>"""
 
 template_js  = """function render({ model, el }) { // Copyright: Matthew Taylor, 2025
 var sketch = document.createElement('div');
@@ -633,6 +635,7 @@ el.appendChild(sketch); } export default { render };"""
 
 template_css = """#sketch {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -642,6 +645,7 @@ canvas {
 }
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -688,4 +692,4 @@ button:hover,
   width: 30px;
   height: 30px;
   padding: 0;
-}"""
+}"""
