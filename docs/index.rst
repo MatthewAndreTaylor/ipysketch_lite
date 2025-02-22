@@ -70,7 +70,7 @@ Then add a new cell to retrieve the sketch data in python
    sketch.image # PIL Image of the sketch
 
 
-.. image:: https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true
+.. image:: https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/docs/_static/example.png?raw=true
       :alt: example sketch
 
 Sketch data gets updated in cells after the sketch is modified.

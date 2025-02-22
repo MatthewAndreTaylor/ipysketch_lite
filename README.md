@@ -52,7 +52,7 @@ sketch.data # Sketch image data as a base64 encoded string
 sketch.image # PIL Image of the sketch
 ```
 
-![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true)
+![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/docs/_static/example.png?raw=true)
 
 Sketch data gets updated in cells after the sketch is modified.
 This means you can edit your sketch and get the new updated outputs
