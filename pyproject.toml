@@ -1,7 +1,3 @@
-[build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2"]
-build-backend = "hatchling.build"
-
 [project]
 name = "ipysketch-lite"
 license = { file = "LICENSE" }
@@ -26,9 +22,13 @@ classifiers = [
 ]
 urls = {Homepage = "https://github.com/MatthewAndreTaylor/ipysketch_lite"}
 keywords = ["jupyter", "sketch", "drawing", "canvas"]
-version = "0.4.0"
-dependencies = ["pillow>=8.3.1", "anywidget", "ipywidgets==8.1.2"]
+version = "0.4.1"
+dependencies = ["pillow==10.2.0", "anywidget", "ipywidgets==8.1.2"]
 
 [project.readme]
 file = "README.md"
 content-type = "text/markdown"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
