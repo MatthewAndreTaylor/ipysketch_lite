@@ -33,7 +33,9 @@ jobs:
 
       - name: Build the docs
         run: |
-          ./docs/makedocs.sh
+          pip install IPython sphinx sphinx-book-theme
+          sphinx-apidoc --no-toc -o ./docs ipysketch_lite
+          sphinx-build -M html ./docs ./docs/build -W
           cp -r docs/build/html/* site_dist
 
       - name: Build the JupyterLite site
