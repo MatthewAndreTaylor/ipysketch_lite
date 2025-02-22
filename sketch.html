@@ -57,6 +57,10 @@ button:hover,
   padding: 0;
 }
 </style>
+<div id="root"></div>
+<script>// Copyright: Matthew Taylor, 2025
+var sketch = document.createElement('div');
+sketch.innerHTML = `
 <div id="sketch">
   <div class="toolbar">
     <label class="color-picker-container" for="color">
@@ -75,7 +79,7 @@ button:hover,
       value="4"
       title="Brush size"
     />
-    <button onclick="clearCanvas()">
+    <button id="clear">
       <span>clear</span>
       <svg viewBox="0 0 24 24">
         <path
@@ -83,7 +87,7 @@ button:hover,
         />
       </svg>
     </button>
-    <button onclick="undo()">
+    <button id="undo">
       <span>undo</span>
       <svg viewBox="0 0 24 24">
         <path
@@ -91,7 +95,7 @@ button:hover,
         />
       </svg>
     </button>
-    <button onclick="redo()">
+    <button id="redo">
       <svg viewBox="0 0 24 24">
         <path
           d="M12 4V1L17 6l-5 5V8a8 8 0 0 0-8 8q0 3.4 2.3 5.7L4.9 23A10 10 0 0 1 2 16 10 10 0 0 1 12 6z"
@@ -99,7 +103,7 @@ button:hover,
       </svg>
       <span>redo</span>
     </button>
-    <button id="toggleFill" onclick="toggleFill()">
+    <button id="toggleFill">
       <span>fill</span>
       <svg viewBox="0 0 24 24">
         <path
@@ -111,16 +115,19 @@ button:hover,
   </div>
   <canvas id="canvas" width="400" height="300"></canvas>
 </div>
-<script>var canvas = document.getElementById('canvas');
-var colorInput = document.getElementById('color');
+`;
 
+var canvas = sketch.querySelector('canvas');
+var colorInput = sketch.querySelector('#color');
 colorInput.addEventListener('input', () => {
   ctx.strokeStyle = colorInput.value;
   ctx.fillStyle = colorInput.value;
 });
 
-var toggleFillButton = document.getElementById('toggleFill');
-var brushSize = document.getElementById('size');
+var toggleFillButton = sketch.querySelector('#toggleFill');
+toggleFillButton.addEventListener('click', toggleFill);
+
+var brushSize = sketch.querySelector('#size');
 brushSize.addEventListener('input', () => {
   ctx.lineWidth = brushSize.value;
 });
@@ -139,25 +146,33 @@ function saveState() {
   undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
 }
 
-function undo() {
+function canvasUpload() {
+  return; /* prettier-ignore */
+}
+
+sketch.querySelector('#undo').addEventListener('click', () => {
   if (undoStack.length > 0) {
     redoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(undoStack.pop(), 0, 0);
+    canvasUpload();
   }
-}
+});
 
-function redo() {
+sketch.querySelector('#redo').addEventListener('click', () => {
   if (redoStack.length > 0) {
     undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(redoStack.pop(), 0, 0);
+    canvasUpload();
   }
-}
+});
 
-function canvasUpload() {
-  return; /* prettier-ignore */
-}
+sketch.querySelector('#clear').addEventListener('click', () => {
+  undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  canvasUpload();
+});
 
 saveState();
 canvasUpload();
@@ -212,14 +227,9 @@ function drawLine(x1, y1, x2, y2) {
   ctx.stroke();
 }
 
-function clearCanvas() {
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-}
-
 function floodFill(color, x, y) {
   var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const { width, height, data } = imgData;
-
   toggleFill();
 
   if (pixelColMatch(x, y, color, data, width)) {
@@ -331,4 +341,6 @@ canvas.addEventListener('touchmove', e => {
     touches.splice(i, 1, touch);
   }
 });
+
+document.getElementById('root').appendChild(sketch);
 </script>

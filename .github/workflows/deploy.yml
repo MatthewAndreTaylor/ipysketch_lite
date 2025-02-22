@@ -25,23 +25,20 @@ jobs:
         run: |
           python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab==4.2.4
           pip install -ve .
-          jupyter labextension list
 
       - name: Move files to site_dist
         run: |
           mkdir -p site_dist
-          cp README.md site_dist
           cp README.md examples
 
       - name: Build the docs
         run: |
-          pip install IPython sphinx sphinx-rtd-theme==2.0.0 m2r2==0.3.3
-          sphinx-build -M html ./docs ./docs/build -W
+          ./docs/makedocs.sh
           cp -r docs/build/html/* site_dist
 
       - name: Build the JupyterLite site
         run: |
-          jupyter lite build --contents examples --output-dir site_dist/jupyterlite --piplite-wheels ipysketch-lite[extra]
+          jupyter lite build --contents examples --output-dir site_dist/jupyterlite
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
