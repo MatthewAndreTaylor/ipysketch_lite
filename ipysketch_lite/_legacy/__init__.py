@@ -5,10 +5,9 @@ import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from IPython.display import HTML, display
-from IPython.utils import path
 from PIL import Image
 
-from ipysketch_lite import template
+from .. import _template as template
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -19,24 +18,23 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length)
         message = post_data.decode("utf-8")
-
-        with open(f"message.txt", "w") as buffer:
-            buffer.write(message)
-
+        self.sketch._data = message
         self.send_response(200)
 
 
-def run(handler_class=SimpleHTTPRequestHandler, port=5000):
+def _run(handler_class=SimpleHTTPRequestHandler, port=5000, sketch=None):
     server_address = ("", port)
+    handler_class.sketch = sketch
     httpd = HTTPServer(server_address, handler_class)
     server_thread = threading.Thread(target=httpd.serve_forever)
     server_thread.start()
 
 
-class Sketch:
+class LegacySketch:
     """
-    Sketch class to create a sketch instance
+    Legacy Sketch class to create a sketch instance
     This includes a template that allows for basic drawing utilities
+    small client for transferring image data
     """
 
     _data: str
@@ -47,16 +45,15 @@ class Sketch:
         self._data = ""
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(logging.ERROR)
-
-        self._send_first()
+        
         self.metadata = {
             "{width}": width,
             "{height}": height,
-            "{canvas_upload}": f"window.sendMessage(canvas.toDataURL());",
+            "{canvas_upload}": f"return;",
         }
 
         try:
-            run()
+            _run(sketch=self)
             self.metadata["{canvas_upload}"] = (
                 f"""fetch('http://localhost:5000', {{
                     method: 'POST',
@@ -65,9 +62,7 @@ class Sketch:
                 }});"""
             )
         except Exception as e:
-            self._logger.warning(
-                f"Could not start local server: {e} Using default method."
-            )
+            self._logger.warning(f"Could not start local server: {e}")
 
         sketch_template = self.get_template()
         display(HTML(sketch_template))
@@ -76,55 +71,27 @@ class Sketch:
         """
         Get the sketch html template with metadata replaced
         """
-        sketch_template = template.template
+        sketch_template = template.template_html
         for key, value in self.metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
 
         return sketch_template
 
-    def _send_first(self):
-        # Create a sample 1x1 px png image
-        sample_data = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC"
-        with open("message.txt", "w") as buffer:
-            buffer.write(sample_data)
-
-        # Touch the file to create it
-        self._read_message_data()
-
-    def _read_message_data(self) -> bool:
-        """
-        Read the message data from the file return whether it was successful
-        """
-        try:
-            message_path = path.filefind("message.txt")
-            if message_path:
-                with open(message_path, "r") as f:
-                    self._data = f.read()
-        except Exception as e:
-            raise e
-
-    def save(self, path: str):
+    def save(self, fp, file_format=None) -> None:
         """
         Save the sketch image data to a file
         """
-        if not path.endswith(".png"):
-            raise ValueError("Only PNG files are supported.")
-
-        self.image.save(path)
+        self.image.save(fp, format=file_format)
 
     @property
     def data(self) -> str:
         """
         Get the sketch image data as a base64 encoded string
         """
-        try:
-            self._read_message_data()
-        except Exception as e:
-            self._logger.error(f"Could not read message data: {e}")
         return self._data
 
     @property
-    def image(self) -> Image:
+    def image(self):
         """
         Get the sketch image data as a PIL image
         """
@@ -133,7 +100,10 @@ class Sketch:
     def get_output(self) -> str:
         return self.data
 
-    def get_output_image(self) -> Image:
-        image_data = self.get_output().split(",")[1]
-        bytesio = io.BytesIO(base64.b64decode(image_data))
+    def get_output_image(self):
+        try:
+            image_data = self.get_output().split(",")[1]
+            bytesio = io.BytesIO(base64.b64decode(image_data))
+        except IndexError:
+            raise ValueError("Not enough data to create an image")
         return Image.open(bytesio)

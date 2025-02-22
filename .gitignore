@@ -25,6 +25,7 @@ node_modules/
 .ipynb_checkpoints
 ipysketch_lite/labextension
 _output/
+examples/README.md
 
 # Distribution / packaging
 .Python

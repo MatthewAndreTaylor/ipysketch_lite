@@ -1,1 +1,6 @@
-__import__("setuptools").setup(version="0.4.0")
+from setuptools import setup, find_packages
+
+setup(
+    packages=find_packages(),
+    include_package_data=True,
+)

@@ -1,38 +1,41 @@
-# ipysketch_lite
+# ipysketch_lite 🎨
 
-A lite sketching utility for python notebooks, no sockets or extra dependencies 🎨
+[![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite)
+[![Docs](https://img.shields.io/badge/Docs-informational?logo=readthedocs&logoColor=white)](https://matthewandretaylor.github.io/ipysketch_lite)
+[![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
 
-(no extra widget code)
 
-Make sketches right in your notebook then use the sketch in your python code.
+**ipysketch_lite** is a simple interactive sketching tool for Jupyter notebooks.
+After drawing a sketch you can use it directly in your Jupyter notebook.
+When changes are made to the sketch, the image data in Python is updated.
 
-Try yourself:
-
-<a href="https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb">
-<img alt="jupyterlite badge" src="https://jupyterlite.rtfd.io/en/latest/_static/badge.svg">
-</a>
 
 ![demo](https://github.com/user-attachments/assets/32504e77-a9d1-43c2-96ff-dc0acff48393)
 
-[![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite)
-[![Docs](https://img.shields.io/badge/Docs-informational?logo=readthedocs&logoColor=white)](https://matthewandretaylor.github.io/ipysketch_lite/docs)
+Try it out in JupyterLite: [![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
 
-### quickstart 🚀
 
-To get started pip install the extension from [PyPI](https://pypi.org/project/ipysketch-lite)
+## Documentation 📖
 
-This can be done using `pip` for jupyter environments
+You can view the documentation at: https://matthewandretaylor.github.io/ipysketch_lite
+
+
+## Install 🛠️
+
+You can install using **pip**:
 
 ```bash
 pip install ipysketch-lite
 ```
 
-Or using `piplite` if you are using [jupyter lite](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
+Or using **piplite** if you are using [Jupyter lite](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
 
 ```py
 import piplite
-await piplite.install("ipysketch_lite") # install the package and optionally pillow and numpy for the extra features
+await piplite.install("ipysketch_lite")
 ```
+
+## Quickstart 🚀
 
 Start drawing a quick sketch in your notebook like this
 
@@ -42,35 +45,14 @@ from ipysketch_lite import Sketch
 sketch = Sketch()
 ```
 
-Then add a new cell to retrieve the sketch in python
+Then add a new cell to retrieve the sketch data in python
 
 ```py
 sketch.data # Sketch image data as a base64 encoded string
-```
-
-```py
-import matplotlib.pyplot as plt
-
-# Plot the sketch image or do image manipulation
-plt.imshow(sketch.image)
-plt.show()
+sketch.image # PIL Image of the sketch
 ```
 
 ![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true)
 
-Sketches get updated in cells after draw updates
-
-This means you can continue your sketch and get the new updated outputs
-
-
-### examples 🎨
-
-
-
-foobar
-
-
-foobar
-
-
-foobar
+Sketch data gets updated in cells after the sketch is modified.
+This means you can edit your sketch and get the new updated outputs
