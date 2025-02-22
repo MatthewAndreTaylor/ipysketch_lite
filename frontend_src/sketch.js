@@ -1,64 +1,4 @@
-<style>#sketch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-canvas {
-  border: 2px solid #000;
-}
-.toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  align-items: center;
-}
-button {
-  padding: 6px;
-}
-input {
-  padding: 6px 0;
-}
-button,
-#color {
-  border: none;
-  background: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  gap: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-button svg,
-.color-picker-container svg {
-  width: 20px;
-  height: 20px;
-}
-button:hover,
-.color-picker-container:hover,
-.active {
-  background: #d6d6d6;
-}
-.color-picker-container {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 1px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background: white;
-  cursor: pointer;
-}
-.color-picker-container input {
-  width: 30px;
-  height: 30px;
-  padding: 0;
-}
-</style>
-<div id="root"></div>
-<script>// Copyright: Matthew Taylor, 2025
+// Copyright: Matthew Taylor, 2025
 var sketch = document.createElement('div');
 sketch.innerHTML = `
 <div id="sketch">
@@ -113,7 +53,7 @@ sketch.innerHTML = `
       </svg>
     </button>
   </div>
-  <canvas id="canvas" width="400" height="300"></canvas>
+  <canvas id="canvas" width="{width}" height="{height}"></canvas>
 </div>
 `;
 
@@ -147,7 +87,7 @@ function saveState() {
 }
 
 function canvasUpload() {
-  return; /* prettier-ignore */
+  {canvas_upload} /* prettier-ignore */
 }
 
 sketch.querySelector('#undo').addEventListener('click', () => {
@@ -343,4 +283,3 @@ canvas.addEventListener('touchmove', e => {
 });
 
 document.getElementById('root').appendChild(sketch);
-</script>

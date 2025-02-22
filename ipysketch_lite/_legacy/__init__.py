@@ -1,49 +1,77 @@
 import base64
 import io
 import logging
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
+from IPython.display import HTML, display
 from PIL import Image
 
-import anywidget
-import traitlets
-
-from ._template import template_js, template_css
+from .. import _template as template
 
 
-class Sketch(anywidget.AnyWidget):
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        pass
+
+    def do_POST(self):
+        content_length = int(self.headers["Content-Length"])
+        post_data = self.rfile.read(content_length)
+        message = post_data.decode("utf-8")
+        self.sketch._data = message
+        self.send_response(200)
+
+
+def _run(handler_class=SimpleHTTPRequestHandler, port=5000, sketch=None):
+    server_address = ("", port)
+    handler_class.sketch = sketch
+    httpd = HTTPServer(server_address, handler_class)
+    server_thread = threading.Thread(target=httpd.serve_forever)
+    server_thread.start()
+
+
+class LegacySketch:
     """
-    Sketch class to create a sketch instance
+    Legacy Sketch class to create a sketch instance
     This includes a template that allows for basic drawing utilities
-    Sketch image data is stored as a base64 encoded string
+    small client for transferring image data
     """
 
+    _data: str
     _logger: logging.Logger
     metadata: dict
-    _sketch_data = traitlets.Unicode().tag(sync=True)
 
-    _canvas_upload: str = "model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
-    
     def __init__(self, width: int = 400, height: int = 300):
+        self._data = ""
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(logging.ERROR)
         
         self.metadata = {
             "{width}": width,
             "{height}": height,
-            "{canvas_upload}": self._canvas_upload,
+            "{canvas_upload}": f"return;",
         }
 
+        try:
+            _run(sketch=self)
+            self.metadata["{canvas_upload}"] = (
+                f"""fetch('http://localhost:5000', {{
+                    method: 'POST',
+                    headers: {{'Content-Type': 'text/plain'}},
+                    body: canvas.toDataURL()
+                }});"""
+            )
+        except Exception as e:
+            self._logger.warning(f"Could not start local server: {e}")
+
         sketch_template = self.get_template()
-        self._esm = sketch_template
-        self._css = template_css
-        super().__init__()
-        display(self)
+        display(HTML(sketch_template))
 
     def get_template(self) -> str:
         """
         Get the sketch html template with metadata replaced
         """
-        sketch_template = template_js
+        sketch_template = template.template_html
         for key, value in self.metadata.items():
             sketch_template = sketch_template.replace(key, str(value))
 
@@ -60,9 +88,8 @@ class Sketch(anywidget.AnyWidget):
         """
         Get the sketch image data as a base64 encoded string
         """
-        return str(self._sketch_data)
+        return self._data
 
-    
     @property
     def image(self):
         """
@@ -70,7 +97,6 @@ class Sketch(anywidget.AnyWidget):
         """
         return self.get_output_image()
 
-    
     def get_output(self) -> str:
         return self.data
 
@@ -81,13 +107,3 @@ class Sketch(anywidget.AnyWidget):
         except IndexError:
             raise ValueError("Not enough data to create an image")
         return Image.open(bytesio)
-
-
-class AnnotationSketch(Sketch):
-    def __init__(self, image: Image):
-        buffer = io.BytesIO()
-        image.save(buffer, format="PNG")
-        image_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        self.data_url = f"data:image/png;base64,{image_data}"
-        self._canvas_upload += "}{" + f"""var base_im = new Image();base_im.src = "{self.data_url}";base_im.onload = function(){{ctx.drawImage(base_im, 0, 0);}}"""
-        super().__init__(image.width, image.height)

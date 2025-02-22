@@ -1,20 +1,81 @@
+ipysketch_lite 🎨
+==========================================
+
+**ipysketch_lite** is a simple interactive sketching tool for Jupyter notebooks.
+After drawing a sketch you can use it directly in your Jupyter notebook.
+When changes are made to the sketch, the image data in Python is updated.
+
+
+Start sketching now 🖌️
+-----------------------
+You can start sketching now without having to install anything on your computer.
+
+.. raw:: html
+   :file: ../sketch.html
+
+
+|
+
+Try it out in JupyterLite: |badge|
+
+.. |badge| image:: https://jupyterlite.rtfd.io/en/latest/_static/badge.svg
+   :target: https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb
+   :alt: Launch JupyterLite
+
+
+Install 🛠️
+--------------------
+
+You can install using **pip**:
+
+.. code-block:: bash
+
+   pip install ipysketch-lite
+
+
+Or using **piplite** if you are using JupyterLite:
+
+.. code-block:: python
+
+   import piplite
+   await piplite.install("ipysketch_lite")
+
+
+API Reference 📚
+-----------------
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 4
 
-ipysketch_lite docs
-========================================
+   ipysketch_lite
 
-Simple sketching tool for Jupyter notebooks
 
-What makes ipysketch_lite different is non use of any third party widget code.
-It is a simple sketching tool that uses the canvas element to draw on.
 
-.. toctree::
-   :maxdepth: 3
+Quickstart 🚀
+-----------------
+
+Start drawing a quick sketch in your notebook like this
+
+.. code-block:: python
+
+   from ipysketch_lite import Sketch
    
-   readme
-   api
+   sketch = Sketch()
+
+Then add a new cell to retrieve the sketch data in python
+
+.. code-block:: python
+
+   sketch.data # Sketch image data as a base64 encoded string
+   sketch.image # PIL Image of the sketch
+
+
+.. image:: https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/sketches/example.png?raw=true
+      :alt: example sketch
+
+Sketch data gets updated in cells after the sketch is modified.
+This means you can edit your sketch and get the new updated outputs
+
 
 
 * :ref:`genindex`
