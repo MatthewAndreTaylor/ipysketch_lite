@@ -23,7 +23,7 @@ jobs:
 
       - name: Installations
         run: |
-          python -m pip install jupyterlite-core==0.1.0b19 jupyterlite-pyodide-kernel==0.0.5 jupyterlab==4.2.4
+          python -m pip install jupyterlite-core==0.4.1 jupyterlite-pyodide-kernel==0.4.2 jupyterlab~=4.2.4
           pip install -ve .
 
       - name: Move files to site_dist
