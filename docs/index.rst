@@ -1,3 +1,8 @@
+.. meta::
+   :author: Matthew Taylor
+   :description: ipysketch_lite - A simple sketching tool for Jupyter notebooks.
+   :keywords: Jupyter, sketch, drawing, notebook, ipysketch_lite
+
 ipysketch_lite 🎨
 ==========================================
 

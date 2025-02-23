@@ -347,7 +347,7 @@ canvas.addEventListener('touchmove', e => {
 document.getElementById('root').appendChild(sketch);
 </script>"""
 
-template_js  = """function render({ model, el }) { // Copyright: Matthew Taylor, 2025
+template_js = """function render({ model, el }) { // Copyright: Matthew Taylor, 2025
 var sketch = document.createElement('div');
 sketch.innerHTML = `
 <div id="sketch">

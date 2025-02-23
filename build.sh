@@ -16,7 +16,7 @@ escaped_js="function render({ model, el }) { $escaped_js } export default { rend
 # Write the output into the Python template
 echo "template_html = \"\"\"$escaped_html\"\"\"" > ipysketch_lite/_template.py
 echo "" >> ipysketch_lite/_template.py
-echo "template_js  = \"\"\"$escaped_js\"\"\"" >> ipysketch_lite/_template.py
+echo "template_js = \"\"\"$escaped_js\"\"\"" >> ipysketch_lite/_template.py
 echo "" >> ipysketch_lite/_template.py
 echo "template_css = \"\"\"$escaped_css\"\"\"" >> ipysketch_lite/_template.py
 

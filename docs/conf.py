@@ -12,23 +12,20 @@ extensions = ["sphinx.ext.autodoc"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "sphinx_book_theme"
-
 html_favicon = "_static/icon.ico"
 html_logo = "_static/icon.ico"
 
 html_static_path = ["_static"]
-
 templates_path = ["_templates"]
-
 html_css_files = ["custom.css"]
 
 html_sidebars = {
     "**": [
         "navbar-logo.html",
         "icon-links.html",
-        "search-button-field.html", 
+        "search-button-field.html",
         "sbt-sidebar-nav.html",
-        "custom-sidebar.html"
+        "custom-sidebar.html",
     ],
 }
 
