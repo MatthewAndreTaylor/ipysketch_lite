@@ -21,12 +21,14 @@ class Sketch(anywidget.AnyWidget):
     metadata: dict
     _sketch_data = traitlets.Unicode().tag(sync=True)
 
-    _canvas_upload: str = "model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
-    
+    _canvas_upload: str = (
+        "model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
+    )
+
     def __init__(self, width: int = 400, height: int = 300):
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(logging.ERROR)
-        
+
         self.metadata = {
             "{width}": width,
             "{height}": height,
@@ -62,7 +64,6 @@ class Sketch(anywidget.AnyWidget):
         """
         return str(self._sketch_data)
 
-    
     @property
     def image(self):
         """
@@ -70,7 +71,6 @@ class Sketch(anywidget.AnyWidget):
         """
         return self.get_output_image()
 
-    
     def get_output(self) -> str:
         return self.data
 
@@ -89,5 +89,8 @@ class AnnotationSketch(Sketch):
         image.save(buffer, format="PNG")
         image_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
         self.data_url = f"data:image/png;base64,{image_data}"
-        self._canvas_upload += "}{" + f"""var base_im = new Image();base_im.src = "{self.data_url}";base_im.onload = function(){{ctx.drawImage(base_im, 0, 0);}}"""
+        self._canvas_upload += (
+            "}{"
+            + f"""var base_im = new Image();base_im.src = "{self.data_url}";base_im.onload = function(){{ctx.drawImage(base_im, 0, 0);}}"""
+        )
         super().__init__(image.width, image.height)

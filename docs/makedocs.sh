@@ -8,3 +8,8 @@ fi
 pip install IPython sphinx sphinx-book-theme
 sphinx-apidoc --no-toc -o ./docs ipysketch_lite
 sphinx-build -M html ./docs ./docs/build -W
+
+if [[ "$1" == "--minify" ]]; then
+    echo "Minifying HTML..."
+    # TODO: minify
+fi

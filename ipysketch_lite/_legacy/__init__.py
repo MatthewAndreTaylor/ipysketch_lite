@@ -45,7 +45,7 @@ class LegacySketch:
         self._data = ""
         self._logger = logging.getLogger(__name__)
         self._logger.setLevel(logging.ERROR)
-        
+
         self.metadata = {
             "{width}": width,
             "{height}": height,
@@ -54,13 +54,13 @@ class LegacySketch:
 
         try:
             _run(sketch=self)
-            self.metadata["{canvas_upload}"] = (
-                f"""fetch('http://localhost:5000', {{
+            self.metadata[
+                "{canvas_upload}"
+            ] = f"""fetch('http://localhost:5000', {{
                     method: 'POST',
                     headers: {{'Content-Type': 'text/plain'}},
                     body: canvas.toDataURL()
                 }});"""
-            )
         except Exception as e:
             self._logger.warning(f"Could not start local server: {e}")
 
