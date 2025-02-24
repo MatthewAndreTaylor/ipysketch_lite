@@ -23,8 +23,5 @@ echo "template_css = \"\"\"$escaped_css\"\"\"" >> ipysketch_lite/_template.py
 # Replace {width}, {height}, {canvas_upload} with 400, 300, return; in $escaped_html
 echo "$escaped_html" | sed 's/{width}/400/g; s/{height}/300/g; s/{canvas_upload}/return;/g' > sketch.html
 
-# Add the docs_addon.html to the end of the sketch.html (This is for dynmaic resizing)
-cat frontend_src/docs_addon.html >> sketch.html
-
 rm template.html
 

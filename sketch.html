@@ -346,14 +346,3 @@ canvas.addEventListener('touchmove', e => {
 
 document.getElementById('root').appendChild(sketch);
 </script>
-<script>
-  function resizeCanvas() {
-    let canvas = document.getElementById('canvas');
-    if (window.innerWidth >= 500) {
-      canvas.width = 400;
-    } else {
-      canvas.width = 300;
-    }
-  }
-  window.addEventListener('resize', resizeCanvas);
-</script>
