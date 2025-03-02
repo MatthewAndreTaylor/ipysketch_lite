@@ -1,3 +1,7 @@
 .navbar-brand img {
     max-height: 8em;
 }
+
+#root {
+    margin-left: -15px;
+}

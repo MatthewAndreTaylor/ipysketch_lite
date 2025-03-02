@@ -4,58 +4,29 @@ sketch.innerHTML = `
 <div id="sketch">
   <div class="toolbar">
     <label class="color-picker-container" for="color">
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M18.5 3A2.5 2.5 0 0 1 21 5.5q-.1 2.1-3.5 5.4a34 34 0 0 1-6.8 5.5l-3.3 2.8L4 15.5l2.8-3.4a57 57 0 0 1 5.5-6.7c2.2-2.1 4-3.4 6.2-2.4M5 20h14v2H5z"
-        />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M18.5 3A2.5 2.5 0 0 1 21 5.5q-.1 2.1-3.5 5.4a34 34 0 0 1-6.8 5.5l-3.3 2.8L4 15.5l2.8-3.4a57 57 0 0 1 5.5-6.7c2.2-2.1 4-3.4 6.2-2.4M5 20h14v2H5z"/></svg>
       <input id="color" type="color" value="#000000" title="brush color" />
     </label>
-    <input
-      type="range"
-      id="size"
-      min="3"
-      max="30"
-      value="4"
-      title="Brush size"
-    />
+    <input type="range" id="size" min="3" max="30" value="4" title="Brush size"/>
     <button id="clear">
       <span>clear</span>
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M6 19q.2 1.8 2 2h8a2 2 0 0 0 2-2V7H6zM19 4h-3.5l-.7-.7a2 2 0 0 0-1.4-.6h-2.8a2 2 0 0 0-1.4.6l-.7.7H5v2h14z"
-        />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M6 19q.2 1.8 2 2h8a2 2 0 0 0 2-2V7H6zM19 4h-3.5l-.7-.7a2 2 0 0 0-1.4-.6h-2.8a2 2 0 0 0-1.4.6l-.7.7H5v2h14z"/></svg>
     </button>
     <button id="undo">
       <span>undo</span>
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M12 4V1L7 6l5 5V8a8 8 0 0 1 8 8q0 3.4-2.3 5.7l1.4 1.4A10 10 0 0 0 22 16 10 10 0 0 0 12 6z"
-        />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M12 4V1L7 6l5 5V8a8 8 0 0 1 8 8q0 3.4-2.3 5.7l1.4 1.4A10 10 0 0 0 22 16 10 10 0 0 0 12 6z"/></svg>
     </button>
     <button id="redo">
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M12 4V1L17 6l-5 5V8a8 8 0 0 0-8 8q0 3.4 2.3 5.7L4.9 23A10 10 0 0 1 2 16 10 10 0 0 1 12 6z"
-        />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M12 4V1L17 6l-5 5V8a8 8 0 0 0-8 8q0 3.4 2.3 5.7L4.9 23A10 10 0 0 1 2 16 10 10 0 0 1 12 6z"/></svg>
       <span>redo</span>
     </button>
     <button id="toggleFill">
       <span>fill</span>
-      <svg viewBox="0 0 24 24">
-        <path
-          d="M5.9 6.9c-4.5 4.5-5.4 5.6-5.4 7 0 3.4 6.2 9.6 9.6 9.6 1.2 0 2.4-.8 6-4.4 2.6-2.4 4.2-3.9 3.7-3.3q-.8 1-.7 2c.2 1.1 1.6 2 2.6 1.5.7-.2.8-1 .8-5 0-4.5 0-4.8-1.7-7-2-3-5.8-5.8-8-5.8-1.3 0-2.4.9-6.9 5.4m5.7-3.3Q10.3 5 12 7.9c1 1.6 1 1.6 4.7 1.6 2.1 0 3.8-.1 3.8-.3 0-.8-2.3-3.4-4.1-4.7Q13 2 11.6 3.6M5.9 8.9c-2.9 3-3.4 3.8-3.4 5.2 0 3 4.6 7.4 7.6 7.4q1.1-.1 4.7-3.5l3.6-3.5-1.6-.5a12 12 0 0 1-6.5-6.1l-1-2.5z"
-          fill-rule="evenodd"
-        />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M5.9 6.9c-4.5 4.5-5.4 5.6-5.4 7 0 3.4 6.2 9.6 9.6 9.6 1.2 0 2.4-.8 6-4.4 2.6-2.4 4.2-3.9 3.7-3.3q-.8 1-.7 2c.2 1.1 1.6 2 2.6 1.5.7-.2.8-1 .8-5 0-4.5 0-4.8-1.7-7-2-3-5.8-5.8-8-5.8-1.3 0-2.4.9-6.9 5.4m5.7-3.3Q10.3 5 12 7.9c1 1.6 1 1.6 4.7 1.6 2.1 0 3.8-.1 3.8-.3 0-.8-2.3-3.4-4.1-4.7Q13 2 11.6 3.6M5.9 8.9c-2.9 3-3.4 3.8-3.4 5.2 0 3 4.6 7.4 7.6 7.4q1.1-.1 4.7-3.5l3.6-3.5-1.6-.5a12 12 0 0 1-6.5-6.1l-1-2.5z" fill-rule="evenodd"/></svg>
     </button>
   </div>
   <canvas id="canvas" width="{width}" height="{height}"></canvas>
-</div>
-`;
+</div>`;
 
 var canvas = sketch.querySelector('canvas');
 var colorInput = sketch.querySelector('#color');
