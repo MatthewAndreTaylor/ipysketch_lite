@@ -3,6 +3,7 @@ import io
 import logging
 
 from PIL import Image
+from IPython.display import display
 
 import anywidget
 import traitlets

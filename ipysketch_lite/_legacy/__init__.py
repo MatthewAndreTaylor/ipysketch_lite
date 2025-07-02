@@ -49,14 +49,14 @@ class LegacySketch:
         self.metadata = {
             "{width}": width,
             "{height}": height,
-            "{canvas_upload}": f"return;",
+            "{canvas_upload}": "return;",
         }
 
         try:
             _run(sketch=self)
             self.metadata[
                 "{canvas_upload}"
-            ] = f"""fetch('http://localhost:5000', {{
+            ] = """fetch('http://localhost:5000', {{
                     method: 'POST',
                     headers: {{'Content-Type': 'text/plain'}},
                     body: canvas.toDataURL()
