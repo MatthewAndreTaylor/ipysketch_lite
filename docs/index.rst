@@ -81,7 +81,11 @@ Then add a new cell to retrieve the sketch data in python
 Sketch data gets updated in cells after the sketch is modified.
 This means you can edit your sketch and get the new updated outputs
 
+Using your own drawing API 🖌️
+-----------------------------
 
+You can extend ``ipysketch_lite`` to use your own JavaScript drawing library by subclassing ``Sketch`` and customizing the frontend template.
+See the `custom_sketch.ipynb <https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/examples/custom_sketch.ipynb>`_ notebook for an example.
 
 * :ref:`genindex`
 * :ref:`search`

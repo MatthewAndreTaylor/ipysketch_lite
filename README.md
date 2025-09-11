@@ -60,29 +60,7 @@ This means you can edit your sketch and get the new updated outputs
 
 ## Using your own drawing API 🖌️
 
-You can extend `ipysketch_lite` to use your own JavaScript drawing library by customizing the frontend template. For example, you can integrate libraries by subclassing `Sketch` and providing a custom template.
-
-See the [custom_sketch.ipynb](examples/custom_sketch.ipynb) notebook for a full example.
-
-Here's a minimal example:
-
-```python
-from ipysketch_lite import Sketch
-
-custom_template = """
-function render({ model, el }) {
-	// Load your drawing library and initialize the editor
-}
-export default { render };
-"""
-
-class CustomSketch(Sketch):
-		def get_template(self):
-				return custom_template
-
-sketch = CustomSketch()
-```
-
-You can update the template to use any drawing API and connect it to Python as needed. The sketch data will update in your notebook after edits.
+You can extend `ipysketch_lite` to use your own JavaScript drawing library by subclassing `Sketch` and customizing the frontend template.
+See the [custom_sketch.ipynb](examples/custom_sketch.ipynb) notebook for an example.
 
 ---
