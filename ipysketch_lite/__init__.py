@@ -90,7 +90,7 @@ class AnnotationSketch(Sketch):
     This includes a template that allows for basic drawing utilities
     The base image is drawn on the canvas and can be annotated
     """
-    
+
     def __init__(self, image: Image):
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
