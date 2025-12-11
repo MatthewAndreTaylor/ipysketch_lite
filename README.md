@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ipysketch-lite.svg)](https://pypi.org/project/ipysketch-lite)
 [![Docs](https://img.shields.io/badge/Docs-informational?logo=readthedocs&logoColor=white)](https://matthewandretaylor.github.io/ipysketch_lite)
 [![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MatthewAndreTaylor/ipysketch_lite/blob/main/examples/example.ipynb)
 
 
 **ipysketch_lite** is a simple interactive sketching tool for Jupyter notebooks.
