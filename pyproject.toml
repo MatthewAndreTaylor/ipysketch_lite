@@ -23,7 +23,7 @@ classifiers = [
 ]
 urls = {Homepage = "https://github.com/MatthewAndreTaylor/ipysketch_lite"}
 keywords = ["jupyter", "sketch", "drawing", "canvas"]
-version = "0.5.0"
+version = "0.5.1"
 dependencies = ["pillow", "anywidget"]
 
 [project.readme]

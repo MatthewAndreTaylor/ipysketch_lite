@@ -10,6 +10,7 @@ import traitlets
 
 template_js_path = pathlib.Path(__file__).parent / "sketch.js"
 template_css_path = pathlib.Path(__file__).parent / "sketch.css"
+template_vector_js_path = pathlib.Path(__file__).parent / "vector_sketch.js"
 
 
 def _replace_all(s: str, d: dict) -> str:
@@ -92,3 +93,29 @@ class AnnotationSketch(Sketch):
             + f"""var base_im = new Image();base_im.src = "{self.data_url}";base_im.onload = function(){{ctx.drawImage(base_im, 0, 0);}}"""
         )
         super().__init__(image.width, image.height)
+
+
+class VectorSketch(Sketch):
+    """
+    VectorSketch class to create a sketch instance with vector drawing capabilities
+    This includes a template that allows for basic vector drawing utilities
+    Sketch image data is stored as a base64 encoded string, and SVG data is also available
+    """
+
+    _canvas_upload: str = (
+        "model.set('_svg_data', toSVG(lines));model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
+    )
+    _svg_data = traitlets.Unicode().tag(sync=True)
+
+    @property
+    def svg(self) -> str:
+        """
+        Get the sketch SVG data as a string
+        """
+        return str(self._svg_data)
+
+    def get_template(self):
+        """
+        Get the template JavaScript for the vector sketch widget
+        """
+        return template_vector_js_path.read_text()
