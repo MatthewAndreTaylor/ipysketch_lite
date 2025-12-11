@@ -1,6 +1,6 @@
 import base64
 import io
-import logging
+import pathlib
 
 from PIL import Image
 from IPython.display import display
@@ -8,7 +8,14 @@ from IPython.display import display
 import anywidget
 import traitlets
 
-from ._template import template_js, template_css
+template_js_path = pathlib.Path(__file__).parent / "sketch.js"
+template_css_path = pathlib.Path(__file__).parent / "sketch.css"
+
+
+def _replace_all(s: str, d: dict) -> str:
+    for key, value in d.items():
+        s = s.replace(key, str(value))
+    return s
 
 
 class Sketch(anywidget.AnyWidget):
@@ -18,39 +25,29 @@ class Sketch(anywidget.AnyWidget):
     Sketch image data is stored as a base64 encoded string
     """
 
-    _logger: logging.Logger
-    metadata: dict
+    _script_metadata: dict
     _sketch_data = traitlets.Unicode().tag(sync=True)
-
     _canvas_upload: str = (
         "model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
     )
 
     def __init__(self, width: int = 400, height: int = 300):
-        self._logger = logging.getLogger(__name__)
-        self._logger.setLevel(logging.ERROR)
-
-        self.metadata = {
-            "{width}": width,
-            "{height}": height,
-            "{canvas_upload}": self._canvas_upload,
+        self._script_metadata = {
+            "model.width": width,
+            "model.height": height,
+            "model.canvas_upload": self._canvas_upload,
         }
 
-        sketch_template = self.get_template()
-        self._esm = sketch_template
-        self._css = template_css
+        self._esm = _replace_all(self.get_template(), self._script_metadata)
+        self._css = template_css_path.read_text()
         super().__init__()
         display(self)
 
     def get_template(self) -> str:
         """
-        Get the sketch html template with metadata replaced
+        Get the template JavaScript for the sketch widget
         """
-        sketch_template = template_js
-        for key, value in self.metadata.items():
-            sketch_template = sketch_template.replace(key, str(value))
-
-        return sketch_template
+        return template_js_path.read_text()
 
     def save(self, fp, file_format=None) -> None:
         """
@@ -70,14 +67,8 @@ class Sketch(anywidget.AnyWidget):
         """
         Get the sketch image data as a PIL image
         """
-        return self.get_output_image()
-
-    def get_output(self) -> str:
-        return self.data
-
-    def get_output_image(self):
         try:
-            image_data = self.get_output().split(",")[1]
+            image_data = self._sketch_data.split(",")[1]
             bytesio = io.BytesIO(base64.b64decode(image_data))
         except IndexError:
             raise ValueError("Not enough data to create an image")

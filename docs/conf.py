@@ -9,13 +9,17 @@ author = "Matthew Taylor"
 
 extensions = ["sphinx.ext.autodoc"]
 
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".pyc"]
 
 html_theme = "sphinx_book_theme"
 html_favicon = "_static/icon.ico"
 html_logo = "_static/icon.ico"
 
-html_static_path = ["_static"]
+html_static_path = [
+    "_static",
+    "../ipysketch_lite/sketch.js",
+    "../ipysketch_lite/sketch.css",
+]
 templates_path = ["_templates"]
 html_css_files = ["custom.css"]
 

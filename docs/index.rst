@@ -16,7 +16,7 @@ Start sketching now 🖌️
 You can start sketching now without having to install anything on your computer.
 
 .. raw:: html
-   :file: ../sketch.html
+   :file: _static/sketch.html
 
 
 |
