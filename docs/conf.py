@@ -55,7 +55,20 @@ html_theme_options = {
         {
             "name": "PyPI",
             "url": "https://pypi.org/project/ipysketch-lite",
-            "icon": "fa-solid fa-box",
-        }
+            "icon": "https://img.shields.io/pypi/dw/ipysketch_lite",
+            "type": "url",
+        },
+        {
+            "name": "JupyterLite",
+            "url": "https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=quickstart.ipynb",
+            "icon": "https://jupyterlite.rtfd.io/en/latest/_static/badge.svg",
+            "type": "url",
+        },
+        {
+            "name": "Open In Colab",
+            "url": "https://colab.research.google.com/github/MatthewAndreTaylor/ipysketch_lite/blob/main/examples/quickstart.ipynb",
+            "icon": "https://colab.research.google.com/assets/colab-badge.svg",
+            "type": "url",
+        },
     ],
 }
