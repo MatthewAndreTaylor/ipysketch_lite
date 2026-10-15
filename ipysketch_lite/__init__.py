@@ -59,7 +59,7 @@ class BaseSketchWidget(anywidget.AnyWidget, metaclass=_SketchWidgetMeta):
         return str(self._sketch_data)
 
     @property
-    def image(self):
+    def image(self) -> Image.Image:
         """
         Get the sketch image data as a PIL image
         """
@@ -87,12 +87,12 @@ class AnnotationSketch(BaseSketchWidget):
 
     data_url = traitlets.Unicode().tag(sync=True)
 
-    def __init__(self, image: Image):
+    def __init__(self, base_image: Image.Image):
         buffer = io.BytesIO()
-        image.save(buffer, format="PNG")
+        base_image.save(buffer, format="PNG")
         image_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
         self.data_url = f"data:image/png;base64,{image_data}"
-        super().__init__(image.width, image.height)
+        super().__init__(base_image.width, base_image.height)
 
     def get_template(self) -> str:
         return template_js_path.read_text()

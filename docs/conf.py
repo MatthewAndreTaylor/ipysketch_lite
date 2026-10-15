@@ -1,3 +1,4 @@
+import inspect
 import os
 import sys
 
@@ -8,6 +9,15 @@ copyright = "2025, Matthew Taylor"
 author = "Matthew Taylor"
 
 extensions = ["sphinx.ext.autodoc"]
+
+
+def _use_class_signature(app, what, name, obj, options, signature, return_annotation):
+    if what == "class" and name.startswith("ipysketch_lite."):
+        return str(inspect.signature(obj)), return_annotation
+
+
+def setup(app):
+    app.connect("autodoc-process-signature", _use_class_signature)
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".pyc"]
 
