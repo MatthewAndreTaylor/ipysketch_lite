@@ -55,8 +55,7 @@ html_theme_options = {
         {
             "name": "PyPI",
             "url": "https://pypi.org/project/ipysketch-lite",
-            "icon": "https://img.shields.io/pypi/dw/ipysketch_lite",
-            "type": "url",
-        },
+            "icon": "fa-solid fa-box",
+        }
     ],
 }
