@@ -17,7 +17,7 @@ html_logo = "_static/icon.ico"
 
 html_static_path = [
     "_static",
-    "../ipysketch_lite/sketch.js",
+    "../ipysketch_lite/vector_sketch.js",
     "../ipysketch_lite/sketch.css",
 ]
 templates_path = ["_templates"]

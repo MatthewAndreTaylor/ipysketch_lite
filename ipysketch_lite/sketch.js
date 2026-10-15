@@ -61,7 +61,8 @@ function render({ model, el }) {
   }
 
   function canvasUpload() {
-    model.canvas_upload /* prettier-ignore */
+    model.set("_sketch_data", canvas.toDataURL());
+    model.save_changes();
   }
 
   sketch.querySelector("#undo").addEventListener("click", () => {
@@ -88,7 +89,17 @@ function render({ model, el }) {
     canvasUpload();
   });
 
-  canvasUpload();
+  var dataUrl = model.get("data_url");
+  if (dataUrl) {
+    var baseImage = new Image();
+    baseImage.onload = () => {
+      ctx.drawImage(baseImage, 0, 0);
+      canvasUpload();
+    };
+    baseImage.src = dataUrl;
+  } else {
+    canvasUpload();
+  }
 
   function toggleFill() {
     fillMode = !fillMode;

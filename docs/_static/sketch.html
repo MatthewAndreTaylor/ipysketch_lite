@@ -1,7 +1,13 @@
 <link rel="stylesheet" href="_static/sketch.css" />
 <div id="root"></div>
 <script type="module">
-  import sketch from './_static/sketch.js';
+  import sketch from './_static/vector_sketch.js';
   const root = document.getElementById("root");
-  sketch.render({ model: { width: 400, height: 300, canvas_upload: null }, el: root });
+  const model = {
+    width: 400,
+    height: 300,
+    set(key, value) { this[key] = value; },
+    save_changes() {},
+  };
+  sketch.render({ model, el: root });
 </script>

@@ -13,7 +13,7 @@ When changes are made to the sketch, the image data in Python is updated.
 
 ![demo](https://github.com/user-attachments/assets/32504e77-a9d1-43c2-96ff-dc0acff48393)
 
-Try it out in JupyterLite: [![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
+Try it out in JupyterLite: [![Jupyterlite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=quickstart.ipynb)
 
 
 ## Documentation 📖
@@ -26,14 +26,7 @@ You can view the documentation at: https://matthewandretaylor.github.io/ipysketc
 You can install using **pip**:
 
 ```bash
-pip install ipysketch-lite
-```
-
-Or using **piplite** if you are using [Jupyter lite](https://matthewandretaylor.github.io/ipysketch_lite/jupyterlite/lab?path=lite_example.ipynb)
-
-```py
-import piplite
-await piplite.install("ipysketch_lite")
+pip install ipysketch_lite
 ```
 
 ## Quickstart 🚀
@@ -51,6 +44,7 @@ Then add a new cell to retrieve the sketch data in python
 ```py
 sketch.data # Sketch image data as a base64 encoded string
 sketch.image # PIL Image of the sketch
+sketch.svg # Vector drawing as an SVG string
 ```
 
 ![example sketch](https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/docs/_static/example.png?raw=true)
@@ -61,7 +55,7 @@ This means you can edit your sketch and get the new updated outputs
 
 ## Using your own drawing API 🖌️
 
-You can extend `ipysketch_lite` to use your own JavaScript drawing library by subclassing `Sketch` and customizing the frontend template.
+You can extend `ipysketch_lite` to use your own JavaScript drawing library by subclassing `BaseSketchWidget` and customizing the frontend template.
 See the [custom_sketch.ipynb](examples/custom_sketch.ipynb) notebook for an example.
 
 ---

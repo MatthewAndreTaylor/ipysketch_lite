@@ -1,6 +1,7 @@
 import base64
 import io
 import pathlib
+from abc import ABCMeta, abstractmethod
 
 from PIL import Image
 from IPython.display import display
@@ -19,24 +20,23 @@ def _replace_all(s: str, d: dict) -> str:
     return s
 
 
-class Sketch(anywidget.AnyWidget):
+class _SketchWidgetMeta(type(anywidget.AnyWidget), ABCMeta):
+    """Combine traitlets widget initialization with abstract method enforcement."""
+
+
+class BaseSketchWidget(anywidget.AnyWidget, metaclass=_SketchWidgetMeta):
     """
-    Sketch class to create a sketch instance
-    This includes a template that allows for basic drawing utilities
-    Sketch image data is stored as a base64 encoded string
+    Abstract base for widget setup, image synchronization, and saving.
+    Subclasses provide their drawing frontend through get_template.
     """
 
     _script_metadata: dict
     _sketch_data = traitlets.Unicode().tag(sync=True)
-    _canvas_upload: str = (
-        "model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
-    )
 
     def __init__(self, width: int = 400, height: int = 300):
         self._script_metadata = {
             "model.width": width,
             "model.height": height,
-            "model.canvas_upload": self._canvas_upload,
         }
 
         self._esm = _replace_all(self.get_template(), self._script_metadata)
@@ -44,17 +44,12 @@ class Sketch(anywidget.AnyWidget):
         super().__init__()
         display(self)
 
+    @abstractmethod
     def get_template(self) -> str:
         """
-        Get the template JavaScript for the sketch widget
+        Return the subclass's JavaScript drawing template.
         """
-        return template_js_path.read_text()
-
-    def save(self, fp, file_format=None) -> None:
-        """
-        Save the sketch image data to a file
-        """
-        self.image.save(fp, format=file_format)
+        raise NotImplementedError("Sketch widgets must provide a JavaScript template")
 
     @property
     def data(self) -> str:
@@ -76,35 +71,40 @@ class Sketch(anywidget.AnyWidget):
         return Image.open(bytesio)
 
 
-class AnnotationSketch(Sketch):
+class RasterSketch(BaseSketchWidget):
+    """Canvas-based sketch widget storing raster image data."""
+
+    def get_template(self) -> str:
+        return template_js_path.read_text()
+
+
+class AnnotationSketch(BaseSketchWidget):
     """
     AnnotationSketch class to create a sketch instance with a base image
     This includes a template that allows for basic drawing utilities
     The base image is drawn on the canvas and can be annotated
     """
 
+    data_url = traitlets.Unicode().tag(sync=True)
+
     def __init__(self, image: Image):
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         image_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
         self.data_url = f"data:image/png;base64,{image_data}"
-        self._canvas_upload += (
-            "}{"
-            + f"""var base_im = new Image();base_im.src = "{self.data_url}";base_im.onload = function(){{ctx.drawImage(base_im, 0, 0);}}"""
-        )
         super().__init__(image.width, image.height)
 
+    def get_template(self) -> str:
+        return template_js_path.read_text()
 
-class VectorSketch(Sketch):
+
+class Sketch(BaseSketchWidget):
     """
-    VectorSketch class to create a sketch instance with vector drawing capabilities
+    Default sketch widget with vector strokes, bucket fill, and adjustable line width.
     This includes a template that allows for basic vector drawing utilities
     Sketch image data is stored as a base64 encoded string, and SVG data is also available
     """
 
-    _canvas_upload: str = (
-        "model.set('_svg_data', toSVG(lines));model.set('_sketch_data', canvas.toDataURL());model.save_changes();"
-    )
     _svg_data = traitlets.Unicode().tag(sync=True)
 
     @property
@@ -114,7 +114,7 @@ class VectorSketch(Sketch):
         """
         return str(self._svg_data)
 
-    def get_template(self):
+    def get_template(self) -> str:
         """
         Get the template JavaScript for the vector sketch widget
         """

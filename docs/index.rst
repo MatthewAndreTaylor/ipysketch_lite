@@ -35,15 +35,7 @@ You can install using **pip**:
 
 .. code-block:: bash
 
-   pip install ipysketch-lite
-
-
-Or using **piplite** if you are using JupyterLite:
-
-.. code-block:: python
-
-   import piplite
-   await piplite.install("ipysketch_lite")
+   pip install ipysketch_lite
 
 
 API Reference 📚
@@ -73,6 +65,7 @@ Then add a new cell to retrieve the sketch data in python
 
    sketch.data # Sketch image data as a base64 encoded string
    sketch.image # PIL Image of the sketch
+   sketch.svg # Vector drawing as an SVG string
 
 
 .. image:: https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/docs/_static/example.png?raw=true
@@ -84,8 +77,8 @@ This means you can edit your sketch and get the new updated outputs
 Using your own drawing API 🖌️
 -----------------------------
 
-You can extend ``ipysketch_lite`` to use your own JavaScript drawing library by subclassing ``Sketch`` and customizing the frontend template.
-See the `custom_sketch.ipynb <https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/examples/custom_sketch.ipynb>`_ notebook for an example.
+You can extend ``ipysketch_lite`` to use your own JavaScript drawing library by subclassing ``BaseSketchWidget`` and customizing the frontend template.
+See the `custom_frontend.ipynb <https://github.com/MatthewAndreTaylor/ipysketch_lite/blob/main/examples/custom_frontend.ipynb>`_ notebook for an example.
 
 * :ref:`genindex`
 * :ref:`search`
