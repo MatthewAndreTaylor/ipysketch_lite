@@ -37,7 +37,7 @@ export default {
       <svg viewBox="0 0 24 24"><path d="M18.5 3A2.5 2.5 0 0 1 21 5.5q-.1 2.1-3.5 5.4a34 34 0 0 1-6.8 5.5l-3.3 2.8L4 15.5l2.8-3.4a57 57 0 0 1 5.5-6.7c2.2-2.1 4-3.4 6.2-2.4M5 20h14v2H5z"/></svg>
       <input id="color" type="color" value="#000000" title="brush color" />
     </label>
-    <input type="range" id="size" min="1" max="30" value="2" title="Line width" aria-label="Line width" />
+    <input type="range" id="size" min="1" max="30" value="3" title="Line width" aria-label="Line width" />
     <button id="toggleFill" aria-pressed="false" title="Bucket fill">
       <span>fill</span>
       <svg viewBox="0 0 24 24"><path d="M5.9 6.9c-4.5 4.5-5.4 5.6-5.4 7 0 3.4 6.2 9.6 9.6 9.6 1.2 0 2.4-.8 6-4.4 2.6-2.4 4.2-3.9 3.7-3.3q-.8 1-.7 2c.2 1.1 1.6 2 2.6 1.5.7-.2.8-1 .8-5 0-4.5 0-4.8-1.7-7-2-3-5.8-5.8-8-5.8-1.3 0-2.4.9-6.9 5.4m5.7-3.3Q10.3 5 12 7.9c1 1.6 1 1.6 4.7 1.6 2.1 0 3.8-.1 3.8-.3 0-.8-2.3-3.4-4.1-4.7Q13 2 11.6 3.6M5.9 8.9c-2.9 3-3.4 3.8-3.4 5.2 0 3 4.6 7.4 7.6 7.4q1.1-.1 4.7-3.5l3.6-3.5-1.6-.5a12 12 0 0 1-6.5-6.1l-1-2.5z" fill-rule="evenodd"/></svg>
